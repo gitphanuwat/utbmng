@@ -35,7 +35,10 @@ class VillageController extends Controller
         <tr>
         <th width='70'>ลำดับ</th>
         <th>ชื่อชุมชน</th>
-        <th>ที่อยู่</th>
+        <th>ผู้นำชุมชน</th>
+        <th>สังกัดหน่วยงาน</th>
+        <th>ประชากร</th>
+        <th>พิกัด</th>
         </tr>
         </thead>
         <tbody>
@@ -47,7 +50,14 @@ class VillageController extends Controller
         <tr>
           <td>$i</td>
           <td>$key->name</td>
-          <td> ".$key->address."</td>
+          <td>$key->leader</td>
+          <td>".$key->organize->name."</td>
+          <td>$key->people</td>
+          <td>";
+          if($key->lat and $key->lng){
+            $display .="<a class='btn btn-default btn-xs bndetail' data-id='$key->id' href='#i'><i class='fa fa-map-marker'></i></a>";
+          }
+          $display .="</td>
         </tr>
         ";
       }
@@ -65,16 +75,12 @@ class VillageController extends Controller
 
     public function show($id)
     {
-        //$obj = Village::find($id);
-        //dd($obj);
+        $data = Village::find($id);
+        return $data;
     }
 
     public function edit($id)
     {
-      $data = Village::find($id);
-        header("Content-type: text/x-json");
-        echo json_encode($data);
-        exit();
     }
 
     public function update(VillageRequest $request, $id)

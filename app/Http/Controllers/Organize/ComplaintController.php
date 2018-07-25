@@ -20,8 +20,12 @@ class ComplaintController extends Controller
        //$this->middleware('organize');
      }
 
-    public function index()
-    {
+     public function index($title)
+     {
+       $data = Organize::where('title',$title)->first();
+       session(['sess_org' => $data->id]);
+       session(['sess_orgname' => $data->name]);
+
       $ido = session('sess_org');
       $data = Complaint::where('organize_id',$ido)->get();
       return view('organize.complaint',compact('data'));
@@ -39,7 +43,6 @@ class ComplaintController extends Controller
         <th>เรื่องร้องเรียน</th>
         <th>ผู้ส่งข้อมูล</th>
         <th>สถานะ</th>
-        <th width='130' data-sortable='false'>ดำเนินการ</th>
         </tr>
         </thead>
         <tbody>
@@ -50,14 +53,13 @@ class ComplaintController extends Controller
         $display .= "
         <tr>
           <td>$i</td>
-          <td>$key->name</td>
+          <td><a data-id='$key->id' href='#j' class='bndetail'>".$key->name."</a></td>
           <td> ".$key->sender."</td>
           <td>";
           if($key->status==1){$display .= "นำเข้าระบบ";}
           if($key->status==2){$display .= "กำลังดำเนินการ";}
           if($key->status==3){$display .= "ดำเนินการเสร็จสิ้น";}
             $display .= "</td>
-          <td><a data-id='$key->id' href='#j' class='btn btn-primary btn-xs edit'>แก้ไข</a> <a data-id='$key->id' href='#' class='btn btn-danger btn-xs delete'>ลบข้อมูล</a></td>
         </tr>
         ";
       }
@@ -75,19 +77,15 @@ class ComplaintController extends Controller
 
     public function show($id)
     {
+
     }
 
     public function edit($id)
     {
-
-      $data = Complaint::find($id);
-        header("Content-type: text/x-json");
-        echo json_encode($data);
-        exit();
     }
 
     public function update(ComplaintRequest $request, $id)
-    {    
+    {
     }
 
     public function destroy($id)

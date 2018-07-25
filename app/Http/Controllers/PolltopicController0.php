@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Organize;
+namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Polltopic;
 use App\Pollanswer;
-use App\Organize;
 
 use App\Http\Requests\PolltopicRequest;
 
@@ -19,22 +18,16 @@ class PolltopicController extends Controller
        //$this->middleware('organize');
      }
 
-     public function index($title)
-     {
-       $data = Organize::where('title',$title)->first();
-       session(['sess_org' => $data->id]);
-       session(['sess_orgname' => $data->name]);
-
-      $ido = session('sess_org');
-      $data = Polltopic::where('organize_id',$ido)->get();
+    public function index()
+    {
+      $data = Polltopic::get();
       //$data = Polltopic::where('organize_id',$ido)->get();
-      return view('organize.polltopic',compact('data'));
+      return view('polltopic',compact('data'));
     }
 
     public function create()
     {
-      $idu = session('sess_org');
-      $data = Polltopic::where('organize_id',$idu)->get();
+      $data = Polltopic::get();
       //$data = Polltopic::get();
       $display="
       <table id='example1' class='table table-bordered table-striped'>
@@ -43,22 +36,22 @@ class PolltopicController extends Controller
         <th width='70'>ลำดับ</th>
         <th>ชื่อแบบสำรวจ</th>
         <th>หมวดหมู่</th>
-        <th>หน่วยงาน</th>
+        <th width='130'>หัวข้อคำถาม</th>
         </tr>
         </thead>
         <tbody>
       ";
       $i=0;
-      $arrtype=array('','การพัฒนาและส่งเสริม','การดูแลและป้องกัน','การให้บริการชุมชน','ด้านความเดือดร้อน','ด้านอื่นๆ');
+      $arrstatus=array('','การพัฒนาและส่งเสริม','การดูแลและป้องกัน','การให้บริการชุมชน','ด้านความเดือดร้อน','ด้านอื่นๆ');
       foreach ($data as $key) {
           //$ans = Pollanswer::where('polltopic_id',$key->id)->get();
         $i++;
         $display .= "
         <tr>
           <td>$i</td>
-          <td><a data-id='$key->id' href='#j' class='bndetail'>".$key->title." (".$key->pollanswer->count()." หัวข้อ)</a></td>
+          <td><a data-id='$key->id' href='#j' class='bndetail'>".$key->title."</a></td>
           <td>".$arrtype[$key->type]."</td>
-            <td>".$key->organize->name."</a></td>
+            <td></td>
         </tr>
         ";
       }
@@ -76,11 +69,25 @@ class PolltopicController extends Controller
 
     public function show($id)
     {
+        //$obj = Polltopic::find($id);
+        //dd($obj);
+    }
 
+    public function bntopic($id)
+    {
+      $data = Pollanswer::find($id);
+        header("Content-type: text/x-json");
+        echo json_encode($data);
+        exit();
     }
 
     public function edit($id)
     {
+
+      $data = Polltopic::find($id);
+        header("Content-type: text/x-json");
+        echo json_encode($data);
+        exit();
 
     }
 

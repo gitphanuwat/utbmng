@@ -68,8 +68,7 @@
           position: {lat: value.lat, lng: value.lng},
           map: map,
           //icon: iconBase,
-          title: value.name,
-          zIndex: value.id
+          title: value.name
       });
       var infowindow = new google.maps.InfoWindow({
           content: value.name
@@ -88,14 +87,18 @@
 <script src="{{ asset("assets/plugins/datatables/jquery.dataTables.min.js") }}"></script>
 <script src="{{ asset("assets/plugins/datatables/dataTables.bootstrap.min.js") }}"></script>
 <!-- Geolocation -->
-
 <script type="text/javascript">
   $(function(){
       displaydata();
+      $('body').delegate('.bndetail','click',function(){
+        //$('.showdetail').show();
+        var id = $(this).data('id');
+        displayvil(id);
+      });
   });
   function displaydata(){
     $.ajax({
-      url : '{!! url('organize/village/create') !!}',
+      url : '{!! url('managerset/village/create') !!}',
       type : "get",
       //asyncfalse
       data : {},
@@ -103,6 +106,36 @@
       {
         $('.displayrecord').html(s);
         $("#example1").DataTable();
+      }
+    });
+  }
+  function displayvil(id){
+    $.ajax({
+      url : '{!! url('village') !!}'+'/'+id,
+      type : "get",
+      //asyncfalse
+      data : {},
+      success : function(s)
+      {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: {lat: s.lat, lng: s.lng},
+          mapTypeId: 'roadmap'
+        });
+        var bermudaTriangle = new google.maps.Polygon({
+          paths: mappolygon,
+          strokeColor: '#FF0000',
+          strokeOpacity: 0.5,
+          strokeWeight: 1,
+          fillColor: '#FF0000',
+          fillOpacity: 0.05
+        });
+        bermudaTriangle.setMap(map);
+            var marker = new google.maps.Marker({
+                position: {lat: s.lat, lng: s.lng},
+                map: map,
+                title: s.name
+            });
       }
     });
   }

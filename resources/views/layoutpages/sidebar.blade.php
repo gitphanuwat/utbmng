@@ -17,9 +17,10 @@ use App\Complaint;
 use App\Download;
 
     $ido = session('sess_org');
-    //$csocial = Social::where('organize_id',$ido)->get();
     $organize = Organize::find($ido);
-    ////
+    $arraytypeorg = array('','องค์การบริหารส่วนจังหวัด','เทศบาลเมือง','เทศบาลตำบล','องค์การบริหารส่วนตำบล','การปกครองพิเศษ','');
+    $typeorg=$arraytypeorg[$organize->type];
+
     $cperson = Person::where('organize_id',$ido)->get();
     $cvillage = Village::where('organize_id',$ido)->get();
     $cgroup = Group::where('organize_id',$ido)->get();
@@ -33,17 +34,16 @@ use App\Download;
     $ccomplaint = Complaint::where('organize_id',$ido)->get();
     $cdownload = Download::where('organize_id',$ido)->get();
 
-
 ?>
 
 <section class="sidebar">
   <div class="user-panel">
     <div class="pull-left image">
-      <img src="{{ asset("/images/lrd_logo.png") }}"  alt="Local Research Development">
+      <img src="{{ asset("/images/organize/logo_numrid.png") }}"  alt="Local Research Development">
     </div>
     <div class="pull-left info">
-      <p>UTB System</p>
-      <a href="#">Uttaradit Book System.</a>
+      <p>{{$organize->name}}</p>
+      <a href="{{$organize->title}}">{{$typeorg}} </a>
     </div>
   </div>
 

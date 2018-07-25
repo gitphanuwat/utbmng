@@ -35,7 +35,8 @@ class OrganizeController extends Controller
         <tr>
         <th width='70'>ลำดับ</th>
         <th>ชื่อหน่วยงาน</th>
-        <th>ที่อยู่</th>
+        <th>เขตอำเภอ</th>
+        <th data-sortable='false' width='140'><i class='fa fa-map-marker'></i><i class='fa fa-internet-explorer'></i><i class='fa fa-facebook-square'></i></th>
         </tr>
         </thead>
         <tbody>
@@ -46,8 +47,19 @@ class OrganizeController extends Controller
         $display .= "
         <tr>
           <td>$i</td>
-          <td>$key->name</td>
-          <td> ".$key->address."</td>
+          <td><a href='".url($key->title)."'>$key->name</a></td>
+          <td> ".$key->amphur->name."</td>
+          <td>";
+          if($key->lat and $key->lng){
+            $display .="<a class='btn btn-default bnmap' data-id='$key->id' href='#i' title='แสดงพิกัด'><i class='fa fa-map-marker'></i></a>";
+          }
+          if($key->website){
+            $display .="<a class='btn btn-default' href='http://".$key->website."' title='เปิดเว็บไซต์'><i class='fa fa-internet-explorer'></i></a>";
+          }
+          if($key->facebook){
+            $display .="<a class='btn btn-default' href='https://www.facebook.com/".$key->facebook."' title='เปิดเฟสบุ๊ค'><i class='fa fa-facebook-official'></i></a>";
+          }
+          $display .="</td>
         </tr>
         ";
       }
@@ -65,8 +77,8 @@ class OrganizeController extends Controller
 
     public function show($id)
     {
-        //$obj = Area::find($id);
-        //dd($obj);
+      $data = Organize::find($id);
+      return $data;
     }
 
     public function edit($id)

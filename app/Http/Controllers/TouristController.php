@@ -36,6 +36,7 @@ class TouristController extends Controller
         <th width='70'>ลำดับ</th>
         <th>แหล่งท่องเที่ยว</th>
         <th>ที่อยู่</th>
+        <th data-sortable='false' width='110'></th>
         </tr>
         </thead>
         <tbody>
@@ -46,8 +47,16 @@ class TouristController extends Controller
         $display .= "
         <tr>
           <td>$i</td>
-          <td><a data-id='$key->id' href='#j' class='bndetail'>".$key->name."</a></td>
+          <td><a data-id='$key->id' href='#k' class='bndetail'>".$key->name."</a></td>
           <td> ".$key->address."</td>
+          <td>";
+          if($key->lat and $key->lng){
+            $display .="<a class='btn btn-default bnmap' data-id='$key->id' href='#i' title='แสดงพิกัด'><i class='fa fa-map-marker'></i></a>";
+          }
+          if($key->website){
+            $display .="<a class='btn btn-default' href='http://".$key->website."' title='เปิดเว็บไซต์'><i class='fa fa-internet-explorer'></i></a>";
+          }
+          $display .="</td>
         </tr>
         ";
       }
@@ -91,14 +100,15 @@ class TouristController extends Controller
         <p>รายละเอียด</p>
         <small>".$data->detail."</small>
       </blockquote>
-      <a href='#i' class='btn btn-warning  btncancel'>  ปิด  </a>
+      <a href='#j' class='btn btn-warning  btncancel'>  ปิด  </a>
       ";
       return $display;
     }
 
     public function edit($id)
     {
-
+      $data = Tourist::find($id);
+      return $data;
     }
 
     public function update(TouristRequest $request, $id)

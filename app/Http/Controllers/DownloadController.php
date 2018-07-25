@@ -22,24 +22,21 @@ class DownloadController extends Controller
 
     public function index()
     {
-      $id = session('sess_org');
-      $data = Download::where('organize_id',$id)->get();
+      $data = Download::get();
       return view('download',compact('data'));
     }
 
     public function create()
     {
-      $id = session('sess_org');
-      $data = Download::where('organize_id',$id)->get();
+      $data = Download::get();
       $display="
       <table id='example1' class='table table-bordered table-striped'>
         <thead>
         <tr>
-          <th data-sortable='false'>ลำดับ</th>
-          <th data-sortable='false'>ชื่อเอกสาร</th>
-          <th data-sortable='false'>ไฟล์เอกสาร</th>
-          <th data-sortable='false'>ประเภท</th>
-          <th width='80' data-sortable='false'>ดำเนินการ</th>
+          <th>ลำดับ</th>
+          <th>ชื่อเอกสาร</th>
+          <th>ไฟล์เอกสาร</th>
+          <th>ประเภท</th>
         </tr>
         </thead>
         <tbody>
@@ -50,7 +47,7 @@ class DownloadController extends Controller
         $display .= "
         <tr>
           <td width='50'>$i</td>
-          <td>$key->title</td>
+          <td><a data-id='$key->id' href='#j' class='bndetail'>".$key->title."</a></td>
           <td>";
           if($key->file){
             $display .= "<i class='ion ion-android-attach'></i> <a href='../files/download/".$key->file."'>".$key->file."</a>";
@@ -62,7 +59,6 @@ class DownloadController extends Controller
           if($key->type==3){$display .= "แบบฟอร์มต่างๆ";}
           if($key->type==4){$display .= "เอกสารอื่นๆ";}
             $display .= "</td>
-          <td width='150'><a data-id='$key->id' href='#j' class='btn btn-primary btn-xs edit'> แก้ไข </a> <a data-id='$key->id' href='#' class='btn btn-danger btn-xs delete'> ลบข้อมูล </a></td>
         </tr>
         ";
       }
@@ -81,16 +77,33 @@ class DownloadController extends Controller
 
     public function show($id)
     {
-        //
+      $arrtype=array('','หนังสือราชการ','มาตรฐานต่างๆ','แบบฟอร์มต่างๆ','เอกสารอื่นๆ');
+      $data = Download::find($id);
+      $display="
+      <div class='pull-right box-tools'>
+        <button type='button' class='btn btn-default btn-sm btncancel' title='ปิดหน้าต่าง'>
+        <i class='fa fa-times'></i></button>
+      </div>
+      <div class='row'>
+      <div class='col-md-12'>
+      <blockquote>
+        <p>".$data->title."</p>
+        <small>".$arrtype[$data->type]."</small>
+        <small>".$data->detail."</small>
+      </blockquote>
+      <blockquote>
+        ";
+        if($data->file){
+          $display .= "<i class='ion ion-android-attach'></i> <a href='../files/download/".$data->file."'>".$data->file."</a>";
+        }
+        $display .="
+      </blockquote>
+      ";
+      return $display;
     }
 
     public function edit($id)
     {
-      $data = Download::find($id);
-      //return $data;
-      header("Content-type: text/x-json");
-      echo json_encode($data);
-      exit();
     }
 
     public function downloadupdate(DownloadRequest $request, $id)

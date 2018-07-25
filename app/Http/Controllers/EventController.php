@@ -27,17 +27,16 @@ class EventController extends Controller
 
     public function create()
     {
-      $idu = session('sess_org');
-      $data = Event::where('organize_id',$idu)->get();
+      $data = Event::orderby('startdate','desc')->get();
       //$data = Event::get();
       $display="
       <table id='example1' class='table table-bordered table-striped'>
         <thead>
         <tr>
         <th width='70'>ลำดับ</th>
-        <th>ปัญหาชุมชน</th>
+        <th>กิจกรรม</th>
+        <th>วันที่</th>
         <th>พื้นที่ชุมชน</th>
-        <th width='130' data-sortable='false'>ดำเนินการ</th>
         </tr>
         </thead>
         <tbody>
@@ -48,9 +47,9 @@ class EventController extends Controller
         $display .= "
         <tr>
           <td>$i</td>
-          <td>$key->title</td>
-          <td> ".$key->address."</td>
-          <td><a data-id='$key->id' href='#j' class='btn btn-primary btn-xs edit'>แก้ไข</a> <a data-id='$key->id' href='#' class='btn btn-danger btn-xs delete'>ลบข้อมูล</a></td>
+          <td><a data-id='$key->id' href='#j' class='bndetail'>".$key->title."</a></td>
+          <td>".$key->startdate.'-'.$key->enddate."</td>
+          <td> ".$key->organize->name."</td>
         </tr>
         ";
       }
@@ -60,8 +59,7 @@ class EventController extends Controller
       ";
       $dataobj = array();
       $colors = array('','#0073b7','#f39c12','#00c0ef','#00a65a','#3c8dbc','#D79AE6');
-      $ido = session('sess_org');
-      $obj = Event::where('organize_id',$ido)->get();
+      $obj = Event::get();
       foreach ($obj as $key) {
         $dataobj[] = array(
                      'id' => $key->id,
@@ -81,54 +79,69 @@ class EventController extends Controller
 
     public function store(EventRequest $request)
     {
-      if($fileobj = $request->file('picture')){
-        $extension = $fileobj->getClientOriginalExtension();
-        $filename = $fileobj->getFilename().'.'.$extension;
-        $destinationPath = 'images/event';
-        $fileobj->move($destinationPath,$filename);
-      }else{
-        $filename='';
-      }
-      $entry = new Event();
-      $entry->organize_id = $request->input('organize_id');
-      $entry->user_id = $request->input('user_id');
-      $entry->title = $request->input('title');
-      $entry->type = $request->input('type');
-      $entry->detail = $request->input('detail');
-      $entry->address = $request->input('address');
-      $entry->startdate = $request->input('startdate');
-      $entry->enddate = $request->input('enddate');
-      $entry->repeat = $request->input('repeat');
-      $entry->contact = $request->input('contact');
-      $entry->picture = $filename;
-      $check = $entry->save();
-  $data['file'] = $filename;
-  $data['check'] = $check;
-  return $data;
+
     }
 
     public function show($id)
     {
         $data = Event::find($id);
-        return view('organize.eventshow',compact('data'));
+        return view('eventshow',compact('data'));
     }
 
     public function edit($id)
     {
+      $type=array('','งานประจำปี','งานบริการชุมชน','ส่งเสริมท่องเที่ยว','งานประเพณี','ทำนุบำรุงศิลปะวัฒนธรรม','อื่นๆ');
       $data = Event::find($id);
-      if($data->organize_id == session('sess_org')){
-        header("Content-type: text/x-json");
-        echo json_encode($data);
-        exit();
-      }
-      abort(0);
+      //$data = Group::get();
+      $display="
+      <div class='box-body'>
+      <div class='pull-right box-tools'>
+        <button type='button' class='btn btn-default btn-sm btncancel' title='ปิดหน้าต่าง'>
+        <i class='fa fa-times'></i></button>
+      </div>
+        <div class='form-group'>
+          <h3>".$data->title."</h3>
+        </div>
+        <div class='form-group'>";
+        if($data->picture){
+          $display.="<img class='img-responsive img-squar' src='".url("/images/event/".$data->picture)."' width='250'>";
+        }
+        $display.="</div>
+        <div class='form-group'>
+        </div>
+        <div class='form-group'>
+          <h5>ประเภท:".$type[$data->type]."</h5>
+        </div>
+        <div class='form-group' >
+          <label>รายละเอียด</label>
+          <blockquote>
+            <p>".$data->detail."</p>
+            <small>Someone famous in <cite title='Source Title'>Source Title</cite></small>
+          </blockquote>
+        </div>
+        <div class='form-group'>
+          <label>สถานที่จัด</label>
+          <label>".$data->address."</label>
+        </div>
+        <div class='form-group'>
+          <label>วันเริ่มต้น:</label>
+          <label>".$data->startdate."</label>
+        </div>
+        <div class='form-group'>
+          <label>วันสิ้นสุด:</label>
+          <label>".$data->enddate."</label>
+        </div>
+        <div class='form-group'>
+          <label>ข้อมูลติดต่อ</label>
+          <label>".$data->contact."</label>
+        </div>
+      </div>
+      ";
+      return $display;
     }
     public function update(EventRequest $request, $id)
     {}
 
-    public function eventupdate(EventRequest $request, $id)
-    {
-    }
 
     public function destroy($id)
     {

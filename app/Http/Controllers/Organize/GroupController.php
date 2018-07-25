@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Group;
-
+use App\Organize;
 
 use App\Http\Requests\GroupRequest;
 
@@ -18,8 +18,12 @@ class GroupController extends Controller
        //$this->middleware('organize');
      }
 
-    public function index()
-    {
+     public function index($title)
+     {
+       $data = Organize::where('title',$title)->first();
+       session(['sess_org' => $data->id]);
+       session(['sess_orgname' => $data->name]);
+
       $ido = session('sess_org');
       $data = Group::where('organize_id',$ido)->get();
       return view('organize.group',compact('data'));

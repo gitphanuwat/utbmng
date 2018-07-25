@@ -19,7 +19,7 @@
         แหล่งท่องเที่ยว
       </h3>
     </div>
-    <div class="box-body">
+    <div class="box-body" id='i'>
       <div id="map" style="height: 400px; width: 100%;">
       </div>
     </div>
@@ -37,7 +37,7 @@
             </div>
             <div class="box">
               <div class="box-body">
-                <div class='showdetail' id='j'>
+                <div class='showdetail' id='k'>
                 </div>
               </div>
             </div>
@@ -99,6 +99,10 @@
         $('body').delegate('.btncancel','click',function(){
           $('.showdetail').hide();
         });
+        $('body').delegate('.bnmap','click',function(){
+          var id = $(this).data('id');
+          displaymap(id);
+        });
         $('body').delegate('.bndetail','click',function(){
           $('.showdetail').show();
           var id = $(this).data('id');
@@ -130,6 +134,35 @@
         success : function(s)
         {
           $('.showdetail').html(s);
+        }
+      });
+    }
+    function displaymap(id){
+      $.ajax({
+        url : '{!! url('tourist') !!}'+'/'+id+'/edit',
+        type : "get",
+        data : {},
+        success : function(s)
+        {
+          var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: {lat: s.lat, lng: s.lng},
+            mapTypeId: 'roadmap'
+          });
+          var bermudaTriangle = new google.maps.Polygon({
+            paths: mappolygon,
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.5,
+            strokeWeight: 1,
+            fillColor: '#FF0000',
+            fillOpacity: 0.05
+          });
+          bermudaTriangle.setMap(map);
+              var marker = new google.maps.Marker({
+                  position: {lat: s.lat, lng: s.lng},
+                  map: map,
+                  title: s.name
+              });
         }
       });
     }

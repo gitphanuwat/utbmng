@@ -27,17 +27,16 @@ class InfoController extends Controller
 
     public function create()
     {
-      $id = session('sess_org');
-      $data = Info::where('organize_id',$id)->get();
+      $data = Info::orderby('day', 'desc')->get();
       //$data = Info::get();
       $display="
       <table id='example1' class='table table-bordered table-striped'>
         <thead>
         <tr>
-          <th data-sortable='false'>ลำดับ</th>
-          <th data-sortable='false'>ชื่อ-สกุล</th>
-          <th data-sortable='false'>วันที่</th>
-          <th width='80' data-sortable='false'>ดำเนินการ</th>
+          <th>ลำดับ</th>
+          <th>ชื่อเรื่อง</th>
+          <th>หน่วยงาน</th>
+          <th>วันที่</th>
         </tr>
         </thead>
         <tbody>
@@ -48,9 +47,9 @@ class InfoController extends Controller
         $display .= "
         <tr>
           <td width='50'>$i</td>
-          <td>$key->title</td>
+          <td><a data-id='$key->id' href='#j' class='bndetail'>".$key->title."</a></td>
+          <td>".$key->organize->name."</td>
           <td>$key->day</td>
-          <td width='150'><a data-id='$key->id' href='#j' class='btn btn-primary btn-xs edit'> แก้ไข </a> <a data-id='$key->id' href='#' class='btn btn-danger btn-xs delete'> ลบข้อมูล </a></td>
         </tr>
         ";
       }
@@ -67,16 +66,30 @@ class InfoController extends Controller
 
     public function show($id)
     {
-        //
+      $data = Info::find($id);
+      $display="
+      <div class='pull-right box-tools'>
+        <button type='button' class='btn btn-default btn-sm btncancel' title='ปิดหน้าต่าง'>
+        <i class='fa fa-times'></i></button>
+      </div>
+      <div class='row'>
+      <div class='col-md-4'>
+        <img class='img-thumbnail' src='http://localhost/utb/public_html/images/info/".$data->file."'>
+        <p class='text-muted text-center'>".$data->organize->name."</p>
+      </div>
+      <div class='col-md-8'>
+      <blockquote>
+        <p>".$data->title."</p>
+        <small>วันที่ ".$data->day."</small>
+        <small>".$data->detail."</small>
+      </blockquote>
+      ";
+      return $display;
     }
 
     public function edit($id)
     {
-      $data = Info::find($id);
-      //return $data;
-      header("Content-type: text/x-json");
-      echo json_encode($data);
-      exit();
+
     }
 
     public function infoupdate(InfoRequest $request, $id)

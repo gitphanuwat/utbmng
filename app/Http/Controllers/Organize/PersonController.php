@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Http\Response;
 
 use App\Person;
+use App\Organize;
 use App\Http\Requests\PersonRequest;
 
 class PersonController extends Controller
@@ -20,11 +21,19 @@ class PersonController extends Controller
       //$this->middleware('organize');
   }
 
-    public function index()
+    public function index($title)
     {
+      $data = Organize::where('title',$title)->first();
+      session(['sess_org' => $data->id]);
+      session(['sess_orgname' => $data->name]);
         return view('organize.person');
+        //return session('sess_orgname');
     }
 
+    public function create1($name)
+    {
+      return $name;
+    }
     public function create()
     {
       $id =session('sess_org');
@@ -37,7 +46,7 @@ class PersonController extends Controller
         $display.="
         <div class='col-md-4'>
           <img class='profile-user-img pull-right' src='http://localhost/utb/public_html/images/person/".$key->picture."'>
-          <h3 class='profile-username text-center'>".$key->headname.$key->firstname.' '.$key->lastname."</h3>
+          <h4 class='profile-username text-center'>".$key->headname.$key->firstname.' '.$key->lastname."</h4>
           <p class='text-muted text-center'>".$key->position."</p>
           <blockquote>
             <p>ตำแหน่ง</p>

@@ -127,10 +127,7 @@ class HomeController extends Controller
       //$organize = $request['name'];
       $data = Organize::where('title',$organize)->first();
       session(['sess_org' => $data->id]);
-      //$locations = DB::table('organizes')->first();
-      //$data = DB::table("organizes")
-        //        ->where("title",$organize)
-          //      ->get();
+      session(['sess_orgname' => $data->name]);
       return view('homepage',compact('data'));
       //echo $data[0]->name;
     }

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Http\Response;
 
 use App\Download;
+use App\Organize;
 use App\Http\Requests\DownloadRequest;
 
 class DownloadController extends Controller
@@ -20,8 +21,12 @@ class DownloadController extends Controller
       //$this->middleware('organize');
   }
 
-    public function index()
-    {
+  public function index($title)
+  {
+    $data = Organize::where('title',$title)->first();
+    session(['sess_org' => $data->id]);
+    session(['sess_orgname' => $data->name]);
+
       $id = session('sess_org');
       $data = Download::where('organize_id',$id)->get();
       return view('organize.download',compact('data'));
@@ -35,11 +40,10 @@ class DownloadController extends Controller
       <table id='example1' class='table table-bordered table-striped'>
         <thead>
         <tr>
-          <th data-sortable='false'>ลำดับ</th>
-          <th data-sortable='false'>ชื่อเอกสาร</th>
-          <th data-sortable='false'>ไฟล์เอกสาร</th>
-          <th data-sortable='false'>ประเภท</th>
-          <th width='80' data-sortable='false'>ดำเนินการ</th>
+          <th>ลำดับ</th>
+          <th>ชื่อเอกสาร</th>
+          <th>ไฟล์เอกสาร</th>
+          <th>ประเภท</th>
         </tr>
         </thead>
         <tbody>
@@ -50,7 +54,7 @@ class DownloadController extends Controller
         $display .= "
         <tr>
           <td width='50'>$i</td>
-          <td>$key->title</td>
+          <td><a data-id='$key->id' href='#j' class='bndetail'>".$key->title."</a></td>
           <td>";
           if($key->file){
             $display .= "<i class='ion ion-android-attach'></i> <a href='../files/download/".$key->file."'>".$key->file."</a>";
@@ -62,7 +66,6 @@ class DownloadController extends Controller
           if($key->type==3){$display .= "แบบฟอร์มต่างๆ";}
           if($key->type==4){$display .= "เอกสารอื่นๆ";}
             $display .= "</td>
-          <td width='150'><a data-id='$key->id' href='#j' class='btn btn-primary btn-xs edit'> แก้ไข </a> <a data-id='$key->id' href='#' class='btn btn-danger btn-xs delete'> ลบข้อมูล </a></td>
         </tr>
         ";
       }
@@ -81,16 +84,11 @@ class DownloadController extends Controller
 
     public function show($id)
     {
-        //
     }
 
     public function edit($id)
     {
-      $data = Download::find($id);
-      //return $data;
-      header("Content-type: text/x-json");
-      echo json_encode($data);
-      exit();
+
     }
 
     public function downloadupdate(DownloadRequest $request, $id)
@@ -101,6 +99,6 @@ class DownloadController extends Controller
 
     public function destroy($id)
     {
-      
+
     }
 }

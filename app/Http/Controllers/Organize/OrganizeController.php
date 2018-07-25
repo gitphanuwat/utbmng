@@ -18,8 +18,12 @@ class OrganizeController extends Controller
        //$this->middleware('organize');
      }
 
-    public function index()
-    {
+     public function index($title)
+     {
+       $data = Organize::where('title',$title)->first();
+       session(['sess_org' => $data->id]);
+       session(['sess_orgname' => $data->name]);
+
       $idc = session('sess_org');
       $objorg = Organize::find($idc);
       return view('organize.organize',compact('objorg'));

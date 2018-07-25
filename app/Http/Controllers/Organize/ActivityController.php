@@ -19,8 +19,11 @@ class ActivityController extends Controller
        //$this->middleware('organize');
      }
 
-    public function index()
-    {
+     public function index($title)
+     {
+       $data = Organize::where('title',$title)->first();
+       session(['sess_org' => $data->id]);
+       session(['sess_orgname' => $data->name]);
       $ido = session('sess_org');
       $data = Activity::where('organize_id',$ido)->get();
       return view('organize.activity',compact('data'));

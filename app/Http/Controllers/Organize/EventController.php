@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Event;
-
-
+use App\Organize;
 
 use App\Http\Requests\EventRequest;
 
@@ -19,8 +18,11 @@ class EventController extends Controller
        //$this->middleware('organize');
      }
 
-    public function index()
-    {
+     public function index($title)
+     {
+       $data = Organize::where('title',$title)->first();
+       session(['sess_org' => $data->id]);
+       session(['sess_orgname' => $data->name]);
 
       return view('organize.event');
     }
@@ -35,9 +37,9 @@ class EventController extends Controller
         <thead>
         <tr>
         <th width='70'>ลำดับ</th>
-        <th>ปัญหาชุมชน</th>
+        <th>กิจกรรม</th>
+        <th>วันที่</th>
         <th>พื้นที่ชุมชน</th>
-        <th width='130' data-sortable='false'>ดำเนินการ</th>
         </tr>
         </thead>
         <tbody>
@@ -48,9 +50,9 @@ class EventController extends Controller
         $display .= "
         <tr>
           <td>$i</td>
-          <td>$key->title</td>
-          <td> ".$key->address."</td>
-          <td><a data-id='$key->id' href='#j' class='btn btn-primary btn-xs edit'>แก้ไข</a> <a data-id='$key->id' href='#' class='btn btn-danger btn-xs delete'>ลบข้อมูล</a></td>
+          <td><a data-id='$key->id' href='#j' class='bndetail'>".$key->title."</a></td>
+          <td>".$key->startdate.'-'.$key->enddate."</td>
+          <td> ".$key->organize->name."</td>
         </tr>
         ";
       }
@@ -63,12 +65,13 @@ class EventController extends Controller
       $ido = session('sess_org');
       $obj = Event::where('organize_id',$ido)->get();
       foreach ($obj as $key) {
+        $url=url($key->id.'/event/'.$key->id);
         $dataobj[] = array(
                      'id' => $key->id,
                      'title'=> $key->title,
                      'start'=> $key->startdate,
                      'end'=> $key->enddate,
-                     'url'=> "event/$key->id",
+                     'url'=> $url,
                      'color'=> $colors[$key->type]
                      );
       }
@@ -81,30 +84,7 @@ class EventController extends Controller
 
     public function store(EventRequest $request)
     {
-      if($fileobj = $request->file('picture')){
-        $extension = $fileobj->getClientOriginalExtension();
-        $filename = $fileobj->getFilename().'.'.$extension;
-        $destinationPath = 'images/event';
-        $fileobj->move($destinationPath,$filename);
-      }else{
-        $filename='';
-      }
-      $entry = new Event();
-      $entry->organize_id = $request->input('organize_id');
-      $entry->user_id = $request->input('user_id');
-      $entry->title = $request->input('title');
-      $entry->type = $request->input('type');
-      $entry->detail = $request->input('detail');
-      $entry->address = $request->input('address');
-      $entry->startdate = $request->input('startdate');
-      $entry->enddate = $request->input('enddate');
-      $entry->repeat = $request->input('repeat');
-      $entry->contact = $request->input('contact');
-      $entry->picture = $filename;
-      $check = $entry->save();
-  $data['file'] = $filename;
-  $data['check'] = $check;
-  return $data;
+
     }
 
     public function show($id)
@@ -115,13 +95,7 @@ class EventController extends Controller
 
     public function edit($id)
     {
-      $data = Event::find($id);
-      if($data->organize_id == session('sess_org')){
-        header("Content-type: text/x-json");
-        echo json_encode($data);
-        exit();
-      }
-      abort(0);
+
     }
     public function update(EventRequest $request, $id)
     {}

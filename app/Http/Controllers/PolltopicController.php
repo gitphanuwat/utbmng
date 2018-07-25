@@ -20,16 +20,14 @@ class PolltopicController extends Controller
 
     public function index()
     {
-      $ido = session('sess_org');
-      $data = Polltopic::where('organize_id',$ido)->get();
+      $data = Polltopic::get();
       //$data = Polltopic::where('organize_id',$ido)->get();
       return view('polltopic',compact('data'));
     }
 
     public function create()
     {
-      $idu = session('sess_org');
-      $data = Polltopic::where('organize_id',$idu)->get();
+      $data = Polltopic::get();
       //$data = Polltopic::get();
       $display="
       <table id='example1' class='table table-bordered table-striped'>
@@ -38,28 +36,22 @@ class PolltopicController extends Controller
         <th width='70'>ลำดับ</th>
         <th>ชื่อแบบสำรวจ</th>
         <th>หมวดหมู่</th>
-        <th width='130'>หัวข้อคำถาม</th>
-        <th width='130' data-sortable='false'>ดำเนินการ</th>
+        <th>หน่วยงาน</th>
         </tr>
         </thead>
         <tbody>
       ";
       $i=0;
+      $arrtype=array('','การพัฒนาและส่งเสริม','การดูแลและป้องกัน','การให้บริการชุมชน','ด้านความเดือดร้อน','ด้านอื่นๆ');
       foreach ($data as $key) {
-          $ans = Pollanswer::where('polltopic_id',$key->id)->get();
+          //$ans = Pollanswer::where('polltopic_id',$key->id)->get();
         $i++;
         $display .= "
         <tr>
           <td>$i</td>
-          <td>$key->title</td>
-          <td>";
-          if($key->type==1){$display .= "ด้านการพัฒนาและส่งเสริม";}
-          if($key->type==2){$display .= "การดูแลและป้องกัน";}
-          if($key->type==3){$display .= "ด้านการให้บริการ";}
-          if($key->type==4){$display .= "ด้านอื่นๆ";}
-            $display .= "</td>
-            <td><a data-id='$key->id' href='#k' class='btn btn-success btn-xs bntopic'>".count($ans)." หัวข้อ</a></td>
-          <td><a data-id='$key->id' href='#j' class='btn btn-primary btn-xs edit'>แก้ไข</a> <a data-id='$key->id' href='#' class='btn btn-danger btn-xs delete'>ลบข้อมูล</a></td>
+          <td><a data-id='$key->id' href='#j' class='bndetail'>".$key->title." (".$key->pollanswer->count()." หัวข้อ)</a></td>
+          <td>".$arrtype[$key->type]."</td>
+            <td>".$key->organize->name."</a></td>
         </tr>
         ";
       }
@@ -77,26 +69,35 @@ class PolltopicController extends Controller
 
     public function show($id)
     {
-        //$obj = Polltopic::find($id);
-        //dd($obj);
+      $arrtype=array('','การพัฒนาและส่งเสริม','การดูแลและป้องกัน','การให้บริการชุมชน','ด้านความเดือดร้อน','ด้านอื่นๆ');
+      $data = Polltopic::find($id);
+      //$data = Group::get();
+      $display="
+      <div class='pull-right box-tools'>
+        <button type='button' class='btn btn-default btn-sm btncancel' title='ปิดหน้าต่าง'>
+        <i class='fa fa-times'></i></button>
+      </div>
+
+      <blockquote>
+        <p>".$data->title."</p>
+        <small>".$arrtype[$data->type]."</small>
+        <small>".$data->detail."</small>
+      <ul>";
+      foreach ($data->pollanswer as $key) {
+        $display.="<li>".$key->title."(".$key->score." คะแนน)</li>";
+      }
+        $display.="</ul>
+      </blockquote>
+      ";
+      return $display;
     }
 
     public function bntopic($id)
     {
-      $data = Pollanswer::find($id);
-        header("Content-type: text/x-json");
-        echo json_encode($data);
-        exit();
     }
 
     public function edit($id)
     {
-
-      $data = Polltopic::find($id);
-        header("Content-type: text/x-json");
-        echo json_encode($data);
-        exit();
-
     }
 
     public function update(PolltopicRequest $request, $id)

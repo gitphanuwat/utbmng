@@ -1,7 +1,5 @@
 <?php
 
-
-
 Route::get('/','HomeController@index');
 Route::resource('/organize','OrganizeController');
 Route::resource('/person','PersonController');
@@ -17,8 +15,11 @@ Route::resource('/polltopic','PolltopicController');
 Route::resource('/complaint','ComplaintController');
 Route::resource('/download','DownloadController');
 
-
 Route::get('/counterhit', 'HomeController@counterhit');
+
+Route::get('search','GuestController@search');
+Route::get('search','GuestController@getSearch');
+Route::post('search','GuestController@postSearch');
 
 Route::get('/{name}', 'HomeController@organize');
 Route::resource('/{name}/organize','Organize\OrganizeController');
