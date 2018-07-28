@@ -14,6 +14,8 @@ Route::resource('/info','InfoController');
 Route::resource('/polltopic','PolltopicController');
 Route::resource('/complaint','ComplaintController');
 Route::resource('/download','DownloadController');
+Route::resource('/rss','RssController');
+Route::resource('/feed','FeedController');
 
 Route::get('/counterhit', 'HomeController@counterhit');
 
@@ -35,3 +37,4 @@ Route::resource('/{name}/info','Organize\InfoController');
 Route::resource('/{name}/polltopic','Organize\PolltopicController');
 Route::resource('/{name}/complaint','Organize\ComplaintController');
 Route::resource('/{name}/download','Organize\DownloadController');
+Route::resource('/{name}/rss','Organize\RssController');

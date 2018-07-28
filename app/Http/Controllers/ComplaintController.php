@@ -22,13 +22,13 @@ class ComplaintController extends Controller
 
     public function index()
     {
-      $data = Complaint::get();
+      $data = Complaint::where('permit','1')->get();
       return view('complaint',compact('data'));
     }
 
     public function create()
     {
-      $data = Complaint::get();
+      $data = Complaint::where('permit','1')->get();
       $display="
       <table id='example1' class='table table-bordered table-striped'>
         <thead>

@@ -63,15 +63,15 @@
             <div class="box-body">
               <blockquote>
                 <p>วิสัยทัศน์</p>
-                <small>{{$objorg->vision}}</small>
+                <small><?php echo $objorg->vision ?></small>
               </blockquote>
               <blockquote>
                 <p>พันธกิจ</p>
-                <small>{{$objorg->basic}}</small>
+                <small><?php echo $objorg->basic ?></small>
               </blockquote>
               <blockquote>
                 <p>ประวัติ</p>
-                <small>{{$objorg->history}}</small>
+                <small><?php echo $objorg->history ?></small>
               </blockquote>
             </div>
           </div>

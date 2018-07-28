@@ -5,20 +5,13 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
-use App\University;
-
-use App\Researcher;
-use App\Expert;
-use App\Research;
-use App\Creative;
-use App\Area;
-use App\Infor;
 use App\Counter;
 use App\Log;
 
 use App\Organize;
-
-use DB;
+use App\Person;
+use App\Village;
+use App\Activity;
 
 class HomeController extends Controller
 {
@@ -34,8 +27,12 @@ class HomeController extends Controller
     }
     public function index()
     {
-      $locations = DB::table('organizes')->get();
-      return view('home',compact('locations'));
+      $organize=Organize::get();
+      $person=Person::get();
+      $village=Village::get();
+      $activity=Activity::get();
+      return view('home',compact('organize','person','village','activity'));
+
     }
     public function info()
     {

@@ -28,7 +28,7 @@ use App\Person;
 
     $cinfo= Info::get();
     $cpolltopic = Polltopic::get();
-    $ccomplaint = Complaint::get();
+    $ccomplaint = Complaint::where('permit','1')->get();
     $cdownload = Download::get();
 
     $cperson = Person::get();
@@ -38,7 +38,7 @@ use App\Person;
 <section class="sidebar">
   <div class="user-panel">
     <div class="pull-left image">
-      <img src="{{ asset("/images/lrd_logo.png") }}"  alt="Local Research Development">
+      <img src="{{ asset("/images/utb_logo.png") }}"  alt="Uttaradit Book System">
     </div>
     <div class="pull-left info">
       <p>UTB System</p>
@@ -70,7 +70,7 @@ use App\Person;
   <span class="pull-right-container"><small class="label pull-right bg-gray"><div id = 'csocial'></div></small></span></a></li>
 <li {!! classActivePath('organize') !!}><a href="{{ url('/organize')}}"><i class="fa fa-home"></i><span>ข้อมูลหน่วยงาน</span>
   <span class="pull-right-container"><small class="label pull-right bg-gray"><div id = 'corganize'>{{ $corganize->count() }}</div></small></span></a></li>
-<li {!! classActivePath('person') !!}><a href="{{ url('/person')}}"><i class="fa fa-home"></i><span>ข้อมูลบุคลากร</span>
+<li {!! classActivePath('person') !!}><a href="{{ url('/person')}}"><i class="fa fa-user"></i><span>ข้อมูลบุคลากร</span>
   <span class="pull-right-container"><small class="label pull-right bg-gray"><div id = 'corganize'>{{ $cperson->count() }}</div></small></span></a></li>
 <li {!! classActivePath('village') !!}><a href="{{ url('/village')}}"><i class="fa fa-users"></i> <span>ข้อมูลชุมชน</span>
   <span class="pull-right-container"><small class="label pull-right bg-gray"><div id = 'cvillage'>{{ $cvillage->count() }}</div></small></span></a></li>
@@ -93,6 +93,8 @@ use App\Person;
   <span class="pull-right-container"><small class="label pull-right bg-gray"><div id = 'ccomplaint'>{{ $ccomplaint->count() }}</div></small></span></a></li>
 <li {!! classActivePath('download') !!}><a href="{{ url('/download')}}"><i class="fa fa-paperclip"></i> ดาวน์โหลดเอกสาร
   <span class="pull-right-container"><small class="label pull-right bg-gray"><div id = 'cdownload'>{{ $cdownload->count() }}</div></small></span></a></li>
+<li {!! classActivePath('rss') !!}><a href="{{ url('/rss')}}"><i class="fa fa-paperclip"></i> หนังสือราชการ
+  <span class="pull-right-container"><small class="label pull-right bg-gray"><div id = 'cdownload'></div></small></span></a></li>
 <li><hr></li>
 <li {!! classActivePath('search') !!}><a href="{{ url('search')}}"><i class="fa fa-search"></i> <span>ค้นหาข้อมูล</span></a></li>
 <!-- Authentication Links -->

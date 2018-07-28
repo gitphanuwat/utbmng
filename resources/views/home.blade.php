@@ -7,62 +7,60 @@
 @endsection
 
 <?php
-
-use App\Counter;
-
+  use App\Counter;
 ?>
 
 @section('body')
-  <div class="row">
-    <div class="col-lg-3 col-xs-6">
-      <div class="small-box bg-aqua">
-        <div class="inner">
-          <h3>99</h3>
-          <p>หน่วยงาน</p>
-        </div>
-        <div class="icon">
-          <i class="ion ion-person-add"></i>
-        </div>
-        <a href="{{url('/eis/researcher')}}" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
+<div class="row">
+  <div class="col-lg-3 col-xs-6">
+    <div class="small-box bg-aqua">
+      <div class="inner">
+        <h3>{{$organize->count()}}</h3>
+        <p>หน่วยงาน</p>
       </div>
-    </div>
-    <div class="col-lg-3 col-xs-6">
-      <div class="small-box bg-green">
-        <div class="inner">
-          <h3>99</h3>
-          <p>ชุมชน</p>
-        </div>
-        <div class="icon">
-          <i class="fa fa-gears "></i>
-        </div>
-        <a href="{{url('/eis/expert')}}" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
+      <div class="icon">
+        <i class="fa fa-home"></i>
       </div>
-    </div>
-    <div class="col-lg-3 col-xs-6">
-      <div class="small-box bg-yellow">
-        <div class="inner">
-          <h3>99</h3>
-          <p>สมาชิก</p>
-        </div>
-        <div class="icon">
-          <i class="fa fa-pie-chart"></i>
-        </div>
-        <a href="{{url('/eis/research')}}" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
-      </div>
-    </div>
-    <div class="col-lg-3 col-xs-6">
-      <div class="small-box bg-red">
-        <div class="inner">
-          <h3>99</h3>
-          <p>กิจกรรม</p>
-        </div>
-        <div class="icon">
-          <i class="fa fa-bookmark-o"></i>
-        </div>
-        <a href="{{url('/eis/creative')}}" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
-      </div>
+      <a href="{{url('/managerset/person')}}" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
     </div>
   </div>
+  <div class="col-lg-3 col-xs-6">
+    <div class="small-box bg-green">
+      <div class="inner">
+        <h3>{{$person->count()}}</h3>
+        <p>บุคลากร</p>
+      </div>
+      <div class="icon">
+        <i class="fa fa-user"></i>
+      </div>
+      <a href="{{url('/managerset/village')}}" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
+  <div class="col-lg-3 col-xs-6">
+    <div class="small-box bg-yellow">
+      <div class="inner">
+        <h3>{{$village->count()}}</h3>
+        <p>ชุมชน</p>
+      </div>
+      <div class="icon">
+        <i class="fa fa-map"></i>
+      </div>
+      <a href="{{url('/managerset/activity')}}" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
+  <div class="col-lg-3 col-xs-6">
+    <div class="small-box bg-red">
+      <div class="inner">
+        <h3>{{$activity->count()}}</h3>
+        <p>เรื่องเด่น</p>
+      </div>
+      <div class="icon">
+        <i class="fa fa-flag"></i>
+      </div>
+      <a href="{{url('/managerset/tourist')}}" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
+</div>
 
   <!-- Main row -->
         <div class="row">
@@ -75,88 +73,21 @@ use App\Counter;
             <div class="box box-success">
               <div class="box-header">
                 <i class="fa fa-comments-o"></i>
-
                 <h3 class="box-title">กิจกรรมชุมชน</h3>
-
-                <div class="box-tools pull-right" data-toggle="tooltip" title="Status">
-                  <div class="btn-group" data-toggle="btn-toggle">
-                    <button type="button" class="btn btn-default btn-sm active"><i class="fa fa-square text-green"></i>
-                    </button>
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-square text-red"></i></button>
-                  </div>
-                </div>
               </div>
 
               <div class="box-body chat">
 
                 <div class="item">
-                  <img src="dist/img/user4-128x128.jpg" alt="user image" class="online">
-
-                  <p class="message">
-                    <a href="#" class="name">
-                      <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small>
-                      อดุลย์ ศรีสืบวงษ์
-                    </a>
-                  #สืบสานประเพณี อบต.แม่พูลจัดงานประเพณีรดน้ำดำหัวผู้สูงอายุแสดงออกถึงความเคารพความกตัญญูกตเวทีต่อผู้สูงอายุ"ขอบคุณนายกฯที่มีรางวัลพิเศษ"มาให้ผู้สูงอายุ
-                  </p>
-                  <div class="attachment">
-                    <h4>Attachments:</h4>
-
-                    <p class="filename">
-                      <img src="dist/img/p1.png">
-                    </p>
-                    <p class="message">
-                      <img src="dist/img/cm1.png">
-                    </p>
-
+                  <div id="myScroll">
+                  <div id="showfeed">
                   </div>
-                  <!-- /.attachment -->
-
-                </div>
-
-
-                <!-- /.item -->
-                <!-- chat item -->
-                <div class="item">
-                  <img src="dist/img/user3-128x128.jpg" alt="user image" class="online">
-
-                  <p class="message">
-                    <a href="#" class="name">
-                      <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:15</small>
-                      อบต.ขุนฝาง
-                    </a>
-                    ศูนย์พัฒนาเด็กเล็กองค์การบริหารส่วนตำบลขุนฝาง พาเด็กๆศึกษาแหล่งเรียนรู้ภายในตำบลขุนฝาง วันที่ 2 กุมภาพันธ์ 2560 เวลา 09.00.น. ณ ขุนฝางบ้านกังหัน, ขุนฝางบ้านสวนฮารีน,ขุนฝางสวนม้าโฮมเสตย์
-                  </p>
-                  <div class="attachment">
-                    <p class="filename">
-                      <img src="dist/img/c2.png">
-                    </p>
-
-                  </div>
-
-                </div>
-                <!-- /.item -->
-                <!-- chat item -->
-                <div class="item">
-                  <img src="dist/img/user6-128x128.jpg" alt="user image" class="online">
-
-                  <p class="message">
-                    <a href="#" class="name">
-                      <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 1:15</small>
-                      อบต.ไร่อ้อย
-                    </a>
-                    พิธีเปิดศูนย์การเรียนรู้เศรษกิจพอเพียง ต.ไร่อ้อย — ที่ อบต.ไร่อ้อย
-                  </p>
-                  <div class="attachment">
-                    <p class="filename">
-                      <img src="dist/img/c3.png">
-                    </p>
+                  <div align="center" id="loadfeed"><img src="images/ajax-loader.gif" align="absmiddle"><br>Facebook Loading...</div>
                   </div>
                 </div>
               <div class="box-footer">
                 <div class="input-group">
                   <input class="form-control" placeholder="Type message...">
-
                   <div class="input-group-btn">
                     <button type="button" class="btn btn-success"><i class="fa fa-plus"></i></button>
                   </div>
@@ -352,15 +283,38 @@ use App\Counter;
 @section('script')
 <script  src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyCkw9kj6fQxsFQJ89BbuRqPRZ5c_SdoDqg"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gmaps.js/0.4.24/gmaps.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
 <script>
-  var locations = <?php print_r(json_encode($locations)) ?>;
+var counter=0;
+    $(window).scroll(function () {
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+          $('#loadfeed').show();
+            displayfeed();
+        }
+    });
+    function appendData() {
+        var html = '';
+        for (i = 0; i < 10; i++) {
+            html += '<p class="dynamic">Dynamic Data :  This is test data.</br>Next line.</p>';
+        }
+        $('#myScroll').append(html);
+  counter++;
+
+  //if(counter==2)
+  //$('#myScroll').append('<button id="uniqueButton" style="margin-left: 50%; background-color: powderblue;">Click</button></br></br>');
+    }
+</script>
+
+<script>
+  var locations = <?php print_r(json_encode($organize)) ?>;
   var map = new GMaps({
     el: '#map',
-    lat: 17,
-    lng: 100,
-    zoom: 8,
+    lat: 17.62,
+    lng: 100.087,
+    zoom: 12,
   });
-  $.each( locations, function( index, value ){
+  /*$.each( locations, function( index, value ){
       map.addMarker({
           id: value.id ,
           lat: value.lat ,
@@ -370,7 +324,7 @@ use App\Counter;
              content: value.name
           }
       });
-});
+});*/
 </script>
 
 
@@ -378,6 +332,7 @@ use App\Counter;
   $(function () {
     "use strict";
     counterhit();
+    displayfeed();
     $(document).on('click', '[data-toggle="lightbox"]', function(event) {
                     event.preventDefault();
                     $(this).ekkoLightbox();
@@ -393,6 +348,19 @@ use App\Counter;
       success : function(s)
       {
         //$('#counter').html(s);
+      }
+    });
+  }
+  function displayfeed(){
+    $.ajax({
+      url : '{!! url('feed/create') !!}',
+      type : "get",
+      //asyncfalse
+      data : {},
+      success : function(s)
+      {
+        $('#showfeed').append(s);
+        $('#loadfeed').hide();
       }
     });
   }

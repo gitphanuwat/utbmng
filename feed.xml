@@ -1,0 +1,10 @@
+<channel>
+	<item>
+		<title>I am a title</title>
+		<link>http://example.com/i-am-a-link</link>
+		<pubDate>Sun, 30 Mar 2014 21:40:50 +0000</pubDate>
+		<dc:creator>Author Mc Swagger</dc:creator>
+		<description>I am a description, i am the summary of the post</description>
+		<guid>http://example.com/?p=123</guid>
+	</item>
+</channel>

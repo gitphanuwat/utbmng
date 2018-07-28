@@ -27,14 +27,14 @@ class ComplaintController extends Controller
        session(['sess_orgname' => $data->name]);
 
       $ido = session('sess_org');
-      $data = Complaint::where('organize_id',$ido)->get();
+      $data = Complaint::where('organize_id',$ido)->where('permit','1')->get();
       return view('organize.complaint',compact('data'));
     }
 
     public function create()
     {
       $idu = session('sess_org');
-      $data = Complaint::where('organize_id',$idu)->orderby('name')->get();
+      $data = Complaint::where('organize_id',$idu)->where('permit','1')->orderby('name')->get();
       $display="
       <table id='example1' class='table table-bordered table-striped'>
         <thead>

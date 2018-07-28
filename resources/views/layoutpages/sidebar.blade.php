@@ -31,7 +31,7 @@ use App\Download;
 
     $cinfo= Info::where('organize_id',$ido)->get();
     $cpolltopic = Polltopic::where('organize_id',$ido)->get();
-    $ccomplaint = Complaint::where('organize_id',$ido)->get();
+    $ccomplaint = Complaint::where('permit','1')->get();
     $cdownload = Download::where('organize_id',$ido)->get();
 
 ?>
@@ -39,12 +39,17 @@ use App\Download;
 <section class="sidebar">
   <div class="user-panel">
     <div class="pull-left image">
-      <img src="{{ asset("/images/organize/logo_numrid.png") }}"  alt="Local Research Development">
+      @if ($organize->icon)
+      <img src="http://localhost/utb/public_html/images/organize/{{$organize->icon}}" class="img-circle" alt="Uttaradit BooK System">
+      @else
+      <img src="{{ asset("/images/utb_logo.png") }}"  class="img-circle"  alt="Local Research Development">
+      @endif
     </div>
     <div class="pull-left info">
       <p>{{$organize->name}}</p>
-      <a href="{{$organize->title}}">{{$typeorg}} </a>
+      <a href="#">{{$typeorg}} </a>
     </div>
+
   </div>
 
   <!-- search form -->
@@ -92,6 +97,8 @@ use App\Download;
   <span class="pull-right-container"><small class="label pull-right bg-gray"><div id = 'ccomplaint'>{{ $ccomplaint->count() }}</div></small></span></a></li>
 <li {!! classActivePath($organize->title.'/download') !!}><a href="{{ url('')}}/{{$organize->title}}/download"><i class="fa fa-paperclip"></i> ดาวน์โหลดเอกสาร
   <span class="pull-right-container"><small class="label pull-right bg-gray"><div id = 'cdownload'>{{ $cdownload->count() }}</div></small></span></a></li>
+<li {!! classActivePath($organize->title.'/rss') !!}><a href="{{ url('')}}/{{$organize->title}}/rss"><i class="fa fa-paperclip"></i> หนังสือราชการ
+  <span class="pull-right-container"><small class="label pull-right bg-gray"><div id = 'cdownload'></div></small></span></a></li>
 <li><hr></li>
 <li {!! classActivePath($organize->title.'/search') !!}><a href="{{ url('search')}}"><i class="fa fa-search"></i> <span>ค้นหาข้อมูล</span></a></li>
 <!-- Authentication Links -->
