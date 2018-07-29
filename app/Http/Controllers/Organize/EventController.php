@@ -97,6 +97,28 @@ class EventController extends Controller
     {
 
     }
+
+    public function active()
+    {
+      $ido = session('sess_org');
+      $now = date('Y-m-d H:i:s');
+      $data = Event::where('organize_id',$ido)->where('startdate','>',$now)->limit(5)->get();
+      $display='';
+      foreach ($data as $key) {
+        $dd = date('d-m-Y', strtotime($key->startdate));
+        $display.='
+        <div class="clearfix">
+          <span class="pull-left">'.$key->organize->name.'</span>
+          <span class="pull-right">'.$dd.'</span>
+        </div>
+        <div>
+          <a href="#">'.$key->title.'</a>
+        </div>';
+      }
+
+      return $display;
+    }
+
     public function update(EventRequest $request, $id)
     {}
 

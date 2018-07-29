@@ -15,7 +15,6 @@ class ProblemRequest extends Request
     {
         return [
           'name'=>'required',
-          'type'=>'required',
           'detail'=>'required'
         ];
     }
@@ -23,7 +22,6 @@ class ProblemRequest extends Request
     {
     	return [
         'name.required'=>'กรุณาป้อนหัวข้อปัญหา',
-        'type.required'=>'กรุณาระบบกลุ่มปัญหา',
         'detail.required'=>'กรุณาป้อนรายละเอียดปัญหา'
     	];
     }

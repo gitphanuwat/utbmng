@@ -1,363 +1,262 @@
 @extends('layoutpages.template')
 @section('title',$data->name)
 @section('subtitle','อ.'.$data->amphur->name.' จังหวัดอุตรดิตถ์')
-@section('styles')
-
-@endsection
-
 <?php
-
-use App\Counter;
-
+  use App\Counterorg;
 ?>
-
 @section('body')
-  <div class="row">
-    <div class="col-lg-3 col-xs-6">
-      <div class="small-box bg-aqua">
-        <div class="inner">
-          <h3>99</h3>
-          <p>บุคลากร</p>
-        </div>
-        <div class="icon">
-          <i class="ion ion-person-add"></i>
-        </div>
-        <a href="{{url('/eis/researcher')}}" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
+<div class="row">
+  <div class="col-lg-3 col-xs-6">
+    <div class="small-box bg-aqua">
+      <div class="inner">
+        <h3>{{$person->count()}}</h3>
+        <p>บุคลากร</p>
       </div>
-    </div>
-    <div class="col-lg-3 col-xs-6">
-      <div class="small-box bg-green">
-        <div class="inner">
-          <h3>99</h3>
-          <p>ชุมชน</p>
-        </div>
-        <div class="icon">
-          <i class="fa fa-gears "></i>
-        </div>
-        <a href="{{url('/eis/expert')}}" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
+      <div class="icon">
+        <i class="fa fa-user"></i>
       </div>
-    </div>
-    <div class="col-lg-3 col-xs-6">
-      <div class="small-box bg-yellow">
-        <div class="inner">
-          <h3>99</h3>
-          <p>กลุ่มชุมชน</p>
-        </div>
-        <div class="icon">
-          <i class="fa fa-pie-chart"></i>
-        </div>
-        <a href="{{url('/eis/research')}}" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
-      </div>
-    </div>
-    <div class="col-lg-3 col-xs-6">
-      <div class="small-box bg-red">
-        <div class="inner">
-          <h3>99</h3>
-          <p>กิจกรรม</p>
-        </div>
-        <div class="icon">
-          <i class="fa fa-bookmark-o"></i>
-        </div>
-        <a href="{{url('/eis/creative')}}" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
-      </div>
+      <a href="{{url('')}}/{{$data->title}}/person" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
     </div>
   </div>
+  <div class="col-lg-3 col-xs-6">
+    <div class="small-box bg-green">
+      <div class="inner">
+        <h3>{{$village->count()}}</h3>
+        <p>ชุมชน</p>
+      </div>
+      <div class="icon">
+        <i class="fa fa-users"></i>
+      </div>
+      <a href="{{url('')}}/{{$data->title}}/village" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
+  <div class="col-lg-3 col-xs-6">
+    <div class="small-box bg-yellow">
+      <div class="inner">
+        <h3>{{$activity->count()}}</h3>
+        <p>เรื่องเด่น</p>
+      </div>
+      <div class="icon">
+        <i class="fa fa-flag"></i>
+      </div>
+      <a href="{{url('')}}/{{$data->title}}/activity" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
+  <div class="col-lg-3 col-xs-6">
+    <div class="small-box bg-red">
+      <div class="inner">
+        <h3>{{$tourist->count()}}</h3>
+        <p>แหล่งท่องเที่ยว</p>
+      </div>
+      <div class="icon">
+        <i class="fa fa-photo"></i>
+      </div>
+      <a href="{{url('')}}/{{$data->title}}/tourist" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
+</div>
 
-  <!-- Main row -->
+<!-- Main row -->
+<div class="row">
+  <!-- Left col -->
+  <section class="col-lg-8 connectedSortable">
+    <div class="box box-success">
+      <div class="box-header">
+        <i class="fa fa-comments-o"></i>
+        <h3 class="box-title">กิจกรรมชุมชน</h3>
+      </div>
+
+      <div class="box-body chat">
+        <div class="item">
+          <div id="myScroll">
+            <div id="showfeed"></div>
+            <div align="center" id="loadfeed"><img src="images/ajax-loader.gif" align="absmiddle"><br>Facebook Loading...</div>
+          </div>
+        </div>
+        <div class="box-footer">
+          <div class="input-group">
+            <input class="form-control" placeholder="Type message...">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-success"><i class="fa fa-plus"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- /.Left col -->
+  <!-- right col (We are only adding the ID to make the widgets sortable)-->
+  <section class="col-lg-4 connectedSortable">
+
+    <!-- Map box -->
+    <div class="box box-info">
+      <div class="box-header">
+        <div class="box-tools pull-right">
+          <a href='{{url('')}}/{{$data->title}}/organize' class='name'>
+            <small class='text-muted pull-right'><i class='fa fa-list'></i> More..</small>
+          </a>
+        </div>
+        <i class="fa fa-map-marker"></i>
+        <h3 class="box-title">
+          หน่วยงาน
+        </h3>
+      </div>
+      <div class="box-body chart-responsive">
+        <div id="map" style="width: 100%; height: 200px">map</div>
+      </div>
+      <!-- /.box-body-->
+    </div>
+    <!-- /.box -->
+
+    <!-- Calendar -->
+    <div class="box box-info">
+      <div class="box-header">
+        <i class="fa fa-calendar"></i>
+
+        <h3 class="box-title">กิจกรรมชุมชน</h3>
+        <!-- tools box -->
+        <div class="box-tools pull-right">
+          <a href="{{url('')}}/{{$data->title}}/event" class='name'>
+            <small class='text-muted pull-right'><i class='fa fa-list'></i> More..</small>
+          </a>
+        </div>
+        <!-- /. tools -->
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer text-black">
         <div class="row">
-          <!-- Left col -->
-          <section class="col-lg-8 connectedSortable">
-            <!-- Custom tabs (Charts with tabs)-->
-            <!-- /.nav-tabs-custom -->
-
-            <!-- Chat box -->
-            <div class="box box-success">
-              <div class="box-header">
-                <i class="fa fa-comments-o"></i>
-
-                <h3 class="box-title">กิจกรรมชุมชน</h3>
-
-                <div class="box-tools pull-right" data-toggle="tooltip" title="Status">
-                  <div class="btn-group" data-toggle="btn-toggle">
-                    <button type="button" class="btn btn-default btn-sm active"><i class="fa fa-square text-green"></i>
-                    </button>
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-square text-red"></i></button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="box-body chat">
-
-                <div class="item">
-                  <img src="dist/img/user4-128x128.jpg" alt="user image" class="online">
-
-                  <p class="message">
-                    <a href="#" class="name">
-                      <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small>
-                      อดุลย์ ศรีสืบวงษ์
-                    </a>
-                  #สืบสานประเพณี อบต.แม่พูลจัดงานประเพณีรดน้ำดำหัวผู้สูงอายุแสดงออกถึงความเคารพความกตัญญูกตเวทีต่อผู้สูงอายุ"ขอบคุณนายกฯที่มีรางวัลพิเศษ"มาให้ผู้สูงอายุ
-                  </p>
-                  <div class="attachment">
-                    <h4>Attachments:</h4>
-
-                    <p class="filename">
-                      <img src="dist/img/p1.png">
-                    </p>
-                    <p class="message">
-                      <img src="dist/img/cm1.png">
-                    </p>
-
-                  </div>
-                  <!-- /.attachment -->
-
-                </div>
-
-
-                <!-- /.item -->
-                <!-- chat item -->
-                <div class="item">
-                  <img src="dist/img/user3-128x128.jpg" alt="user image" class="online">
-
-                  <p class="message">
-                    <a href="#" class="name">
-                      <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:15</small>
-                      อบต.ขุนฝาง
-                    </a>
-                    ศูนย์พัฒนาเด็กเล็กองค์การบริหารส่วนตำบลขุนฝาง พาเด็กๆศึกษาแหล่งเรียนรู้ภายในตำบลขุนฝาง วันที่ 2 กุมภาพันธ์ 2560 เวลา 09.00.น. ณ ขุนฝางบ้านกังหัน, ขุนฝางบ้านสวนฮารีน,ขุนฝางสวนม้าโฮมเสตย์
-                  </p>
-                  <div class="attachment">
-                    <p class="filename">
-                      <img src="dist/img/c2.png">
-                    </p>
-
-                  </div>
-
-                </div>
-                <!-- /.item -->
-                <!-- chat item -->
-                <div class="item">
-                  <img src="dist/img/user6-128x128.jpg" alt="user image" class="online">
-
-                  <p class="message">
-                    <a href="#" class="name">
-                      <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 1:15</small>
-                      อบต.ไร่อ้อย
-                    </a>
-                    พิธีเปิดศูนย์การเรียนรู้เศรษกิจพอเพียง ต.ไร่อ้อย — ที่ อบต.ไร่อ้อย
-                  </p>
-                  <div class="attachment">
-                    <p class="filename">
-                      <img src="dist/img/c3.png">
-                    </p>
-                  </div>
-                </div>
-              <div class="box-footer">
-                <div class="input-group">
-                  <input class="form-control" placeholder="Type message...">
-
-                  <div class="input-group-btn">
-                    <button type="button" class="btn btn-success"><i class="fa fa-plus"></i></button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <!-- /.Left col -->
-          <!-- right col (We are only adding the ID to make the widgets sortable)-->
-          <section class="col-lg-4 connectedSortable">
-
-            <!-- Map box -->
-            <div class="box box-info">
-              <div class="box-header">
-                <div class="box-tools pull-right">
-                  <a href='{{url('/stat')}}' class='name'>
-                    <small class='text-muted pull-right'><i class='fa fa-list'></i> More..</small>
-                  </a>
-                </div>
-                <i class="fa fa-map-marker"></i>
-                <h3 class="box-title">
-                  หน่วยงาน
-                </h3>
-              </div>
-              <div class="box-body chart-responsive">
-                <div id="map" style="width: 100%; height: 200px">map</div>
-              </div>
-              <!-- /.box-body-->
-            </div>
-            <!-- /.box -->
-
-            <!-- Calendar -->
-            <div class="box box-solid bg-green-gradient">
-              <div class="box-header">
-                <i class="fa fa-calendar"></i>
-
-                <h3 class="box-title">กิจกรรมชุมชน</h3>
-                <!-- tools box -->
-                <div class="pull-right box-tools">
-                  <!-- button with a dropdown -->
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown">
-                      <i class="fa fa-bars"></i></button>
-                    <ul class="dropdown-menu pull-right" role="menu">
-                      <li><a href="#">Add new event</a></li>
-                      <li><a href="#">Clear events</a></li>
-                      <li class="divider"></li>
-                      <li><a href="#">View calendar</a></li>
-                    </ul>
-                  </div>
-                  <button type="button" class="btn btn-success btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-success btn-sm" data-widget="remove"><i class="fa fa-times"></i>
-                  </button>
-                </div>
-                <!-- /. tools -->
-              </div>
-              <!-- /.box-header -->
-              <div class="box-body no-padding">
-                <!--The calendar -->
-                <div id="calendar" style="width: 100%"></div>
-              </div>
-              <!-- /.box-body -->
-              <div class="box-footer text-black">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <!-- Progress bars -->
-                    <div class="clearfix">
-                      <span class="pull-left">อบต.น้ำพี้</span>
-                    </div>
-                    <div>
-                      <a href="#">กิจกรรมบุญบั้งไฟ หมู่บ้าน..</a>
-                    </div>
-
-                    <div class="clearfix">
-                      <span class="pull-left">อบต.บ่อทอง</span>
-                    </div>
-                    <div>
-                      <a href="#">ตักบาทเทโววัดบ่อทอง..</a>
-                    </div>
-                  </div>
-                  <!-- /.col -->
-                  <div class="col-sm-6">
-                    <div class="clearfix">
-                      <span class="pull-left">อบต.ท่าสัก</span>
-                    </div>
-                    <div>
-                      <a href="#">ประเพณีแห่นางแมว..</a>
-                    </div>
-
-                    <div class="clearfix">
-                      <span class="pull-left">อบต.ชัยจุมพล</span>
-                    </div>
-                    <div>
-                      <a href="#">แห่เทียนเข้าพรรษา..</a>
-                    </div>
-                  </div>
-                  <!-- /.col -->
-                </div>
-                <!-- /.row -->
-              </div>
-            </div>
-            <!-- /.box -->
-
-              <!-- LINE CHART -->
-              <div class="box box-info">
-                <div class="box-header with-border">
-                  <h3 class="box-title">สถิติการใช้ระบบ</h3>
-                  <div class="box-tools pull-right">
-                    <a href='{{url('/stat')}}' class='name'>
-                      <small class='text-muted pull-right'><i class='fa fa-list'></i> More..</small>
-                    </a>
-                  </div>
-                </div>
-                <div class="box-body chart-responsive">
-                  <div class="chart" id="line-chart" style="height: 250px;"></div>
-                </div>
-              </div>
-
-            <div class="box box-info">
-              <div class="box-header">
-                <i class="fa fa-envelope"></i>
-
-                <h3 class="box-title">แจ้งปัญหาชุมชน</h3>
-                <!-- tools box -->
-                <div class="pull-right box-tools">
-                  <button type="button" class="btn btn-info btn-sm" data-widget="remove" data-toggle="tooltip" title="Remove">
-                    <i class="fa fa-times"></i></button>
-                </div>
-                <!-- /. tools -->
-              </div>
-              <div class="box-body">
-                <form action="#" method="post">
-                  <div class="form-group">
-                    <input type="email" class="form-control" name="emailto" placeholder="ผู้ส่ง">
-                  </div>
-                  <div class="form-group">
-                    <input type="text" class="form-control" name="subject" placeholder="หัวเรื่อง">
-                  </div>
-                  <div>
-                    <textarea class="textarea" placeholder="ข้อความ" style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                  </div>
-                </form>
-              </div>
-              <div class="box-footer clearfix">
-                <button type="button" class="pull-right btn btn-default" id="sendEmail">ส่งข้อมูล
-                  <i class="fa fa-arrow-circle-right"></i></button>
-              </div>
-            </div>
-
-            <div class="box box-success">
-              <div class="box-header">
-                <h3 class="box-title">สำรวจความคิดเห็น</h3>
-                <p>
-                ท่านต้องการให้ชุมชนพัฒนาและแก้ไขปัญหาในด้านใดโดยเร็วมากที่สุด
-              </p>
-              </div>
-              <div class="box-body">
-                <div class="form-group">
-                  <label>
-                    <input type="radio" name="r1" class="minimal" checked>
-                    ระบบประปาประจำหมู่บ้าน
-                  </label><br>
-                  <label>
-                    <input type="radio" name="r1" class="minimal">
-                    ระบบเส้นทางสัญจรภายในชุมชน
-                  </label><br>
-                  <label>
-                    <input type="radio" name="r1" class="minimal">
-                    ระบบเสียงตามสาย
-                  </label>
-                  <button type="button" class="pull-right btn btn-default" id="sendEmail">ส่งข้อมูล
-                    <i class="fa fa-arrow-circle-right"></i></button>
-
-                </div>
-              </div>
-            </div>
-          </section>
-          <!-- right col -->
+          <div class="col-sm-12">
+            <div id='showevent'></div>
+            <small class='text-muted pull-right'>กิจกรรมที่กำลังจะมาถึง</small>
+          </div>
         </div>
-        <!-- /.row (main row) -->
+      </div>
+    </div>
+    <!-- /.box -->
 
-  <!-- Main row -->
-  <div class="row">
+      <!-- LINE CHART -->
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">สถิติการใช้ระบบ</h3>
+          <div class="box-tools pull-right">
+            <a href="{{url('')}}/{{$data->title}}/stat" class='name'>
+              <small class='text-muted pull-right'><i class='fa fa-list'></i> More..</small>
+            </a>
+          </div>
+        </div>
+        <div class="box-body chart-responsive">
+          <div class="chart" id="line-chart" style="height: 250px;"></div>
+          <div id='counter'></div>
+        </div>
+      </div>
 
+    <div class="box box-info">
+      <div class="box-header">
+        <i class="fa fa-envelope"></i>
 
-  </div>
+        <h3 class="box-title">แจ้งปัญหาชุมชน</h3>
+        <!-- tools box -->
+        <div class="box-tools pull-right">
+          <a href='{{url('')}}/{{$data->title}}/problem' class='name'>
+            <small class='text-muted pull-right'><i class='fa fa-list'></i> More..</small>
+          </a>
+        </div>
+        <!-- /. tools -->
+      </div>
+      <div id='showproblem'>
+      <form role="form" id="form_problem" name="form_problem">
+      <div class="box-body">
+        <div class="form-group" style="width:250px">
+          <label>หน่วยงาน</label>
+          <select name="organize_id" id="organize_id" class="form-control">
+            <?php
+                echo '<option value="'.$data->id.'">'.$data->name.'</option>';
+             ?>
+          </select>
+        </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="sender" placeholder="ผู้ส่ง">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="name" placeholder="หัวเรื่อง">
+          </div>
+          <div>
+            <textarea class="textarea" placeholder="ข้อความ" name="detail" style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+          </div>
+      </div>
+      <div class="box-footer clearfix">
+        <button type="button" class="pull-right btn btn-default" id="sendproblem">ส่งข้อมูล
+          <i class="fa fa-arrow-circle-right"></i></button>
+          {{ csrf_field() }}
+          {{ method_field('post') }}
+      </div>
+    </form>
+    </div>
+    </div>
 
-
-
+    <div class="box box-success">
+      <div class="box-header">
+        <h3 class="box-title">สำรวจความคิดเห็น</h3>
+        <div class="box-tools pull-right">
+          <a href='{{url('')}}/{{$data->title}}/polltopic' class='name'>
+            <small class='text-muted pull-right'><i class='fa fa-list'></i> More..</small>
+          </a>
+        </div>
+      </div>
+      <div class="box-body">
+        <form role="form" id="form_poll" name="form_poll">
+        <div class="form-group">
+          <div id='showpoll'></div>
+          <button type="button" class="pull-right btn btn-default" id="sendpoll">ส่งข้อมูล
+            <i class="fa fa-arrow-circle-right"></i></button>
+            {{ csrf_field() }}
+            {{ method_field('put') }}
+        </div>
+      </form>
+      </div>
+    </div>
+  </section>
+  <!-- right col -->
+</div>
+<!-- /.row (main row) -->
 @endsection
 
 @section('script')
 <script  src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyCkw9kj6fQxsFQJ89BbuRqPRZ5c_SdoDqg"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gmaps.js/0.4.24/gmaps.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<!-- counter -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="{{ asset("assets/plugins/morris/morris.min.js") }}"></script>
+
+<script>
+var counterfeed=0;
+    $(window).scroll(function () {
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+          $('#loadfeed').show();
+            displayfeed();
+        }
+    });
+    function appendData() {
+        var html = '';
+        for (i = 0; i < 10; i++) {
+            html += '<p class="dynamic">Dynamic Data :  This is test data.</br>Next line.</p>';
+        }
+        $('#myScroll').append(html);
+  counterfeed++;
+
+  //if(counter==2)
+  //$('#myScroll').append('<button id="uniqueButton" style="margin-left: 50%; background-color: powderblue;">Click</button></br></br>');
+    }
+</script>
+
 <script>
   var locations = <?php print_r(json_encode($data)) ?>;
   var map = new GMaps({
     el: '#map',
     lat: locations.lat,
     lng: locations.lng,
-    zoom: locations.zm,
+    zoom: 12,
   });
       map.addMarker({
           id: locations.id ,
@@ -375,30 +274,115 @@ use App\Counter;
   $(function () {
     "use strict";
     counterhit();
-    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
-                    event.preventDefault();
-                    $(this).ekkoLightbox();
+    displaypoll();
+    loadevent();
+    displayfeed();
+    $('#sendpoll').click(function(){
+      updatepoll();
+    });
+    $('#sendproblem').click(function(){
+      postproblem();
     });
   });
 
   function counterhit(){
     $.ajax({
-      url : '{!! url('/counterhit') !!}',
+      url : '{!! url('managerset/counterhit') !!}',
       type : "get",
-      //asyncfalse
-      data : {},
+      data : {
+        '_token': '{{ csrf_token() }}'
+      },
       success : function(s)
       {
+        //alert(s);
         //$('#counter').html(s);
+      }
+    });
+  }
+  function displayfeed(){
+    $.ajax({
+      url : '{!! url('feed/create') !!}',
+      type : "get",
+      //asyncfalse
+      data : {
+        '_token': '{{ csrf_token() }}'
+      },
+      success : function(s)
+      {
+        $('#showfeed').append(s);
+        $('#loadfeed').hide();
+      }
+    });
+  }
+  function displaypoll(){
+    $.ajax({
+      //url : '{!! url('polltopic/1/edit') !!}',
+      url : '{!! url('managerset/polltopic/1/edit') !!}',
+      type : "get",
+      data : {
+        '_token': '{{ csrf_token() }}'
+      },
+      success : function(s)
+      {
+        $('#showpoll').html(s);
+      }
+    });
+  }
+  function updatepoll(){
+    var id = $('#idpoll').val();
+    //var t = $('#p1').val();
+    //alert(t);
+    $.ajax({
+      url : '{!! url('managerset/polltopic') !!}'+'/'+id,
+      async:false,
+      type:'post',
+      processData: false,
+      contentType: false,
+      data:new FormData($("#form_poll")[0]),
+      success : function(s)
+      {
+        //alert(s);
+        $('#showpoll').html(s);
+      }
+    });
+  }
+  function postproblem(){
+    //alert(0);
+    $.ajax({
+      url : '{!! url('managerset/problem') !!}',
+      async:false,
+      type:'post',
+      processData: false,
+      contentType: false,
+      data:new FormData($("#form_problem")[0]),
+      success : function(s)
+      {
+        //alert(s);
+        $('#showproblem').html(s);
+      },
+      error:function(err){
+          if(err){alert('กรุณาเติมข้อมูลให้ถูกต้อง');}
+       }
+    });
+  }
+  function loadevent(){
+    $.ajax({
+      url : '{!! url('managerset/eventshow') !!}',
+      type : "get",
+      data : {
+        '_token': '{{ csrf_token() }}'
+      },
+      success : function(s)
+      {
+        $('#showevent').html(s);
       }
     });
   }
 </script>
 
 
-
 <?php
-    $objcounter = Counter::get();
+    $ido = session('sess_org');
     $nowdate = date("Y-m-d");
     $date=date("Y-m-d",strtotime("-6 days",strtotime($nowdate)));
     $end_date = date("Y-m-d");
@@ -408,7 +392,7 @@ use App\Counter;
         $data .= "resize: true,";
         $data .= "data: [";
         while (strtotime($date) <= strtotime($end_date)) {
-          $objc = Counter::where('day','=',$date)->first();
+          $objc = Counterorg::where('organize_id',$ido)->where('day','=',$date)->first();
           if($objc){
             $counts = $objc->total;
           }else{

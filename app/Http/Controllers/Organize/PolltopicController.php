@@ -81,12 +81,27 @@ class PolltopicController extends Controller
 
     public function edit($id)
     {
+      $ido = session('sess_org');
+      $data = Polltopic::where('organize_id',$ido)->orderby('id','dece')->first();
+      //$data = Group::get();
+      $display="
+        <p>".$data->title."</p>";
+        foreach ($data->pollanswer as $key) {
+          $display.="<label><input type='radio' name='answer' value='".$key->id."' class='minimal'> ".$key->title."</label><br>";
+        }
+        $display.='<input type="hidden" id="idpoll" value="'.$data->id.'">';
+        $display.='['.$data->organize->name.']';
+      return $display;
 
     }
 
-    public function update(PolltopicRequest $request, $id)
+    public function update(Request $request, $id)
     {
-
+      $ansid = $request['answer'];
+      $data = Pollanswer::find($ansid);
+      $data->score = $data->score+1;;
+      $check = $data->save();
+      if($check>0){return "- ส่งข้อมูลเรียบร้อบ -";}else{return "- Error -";}
     }
 
     public function destroy($id)

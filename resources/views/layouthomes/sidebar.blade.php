@@ -66,7 +66,7 @@ use App\Person;
 
 
 <li class="header">เมนู:ข้อมูลหน่วยงาน</li>
-<li {!! classActivePath('social') !!}><a href="{{ url('social')}}"><i class="fa fa-dashboard"></i> <span>ศูนย์ข้อมูลข่าวสาร</span>
+<li {!! classActivePath('/') !!}><a href="{{ url('/')}}"><i class="fa fa-dashboard"></i> <span>ศูนย์ข้อมูลข่าวสาร</span>
   <span class="pull-right-container"><small class="label pull-right bg-gray"><div id = 'csocial'></div></small></span></a></li>
 <li {!! classActivePath('organize') !!}><a href="{{ url('/organize')}}"><i class="fa fa-home"></i><span>ข้อมูลหน่วยงาน</span>
   <span class="pull-right-container"><small class="label pull-right bg-gray"><div id = 'corganize'>{{ $corganize->count() }}</div></small></span></a></li>

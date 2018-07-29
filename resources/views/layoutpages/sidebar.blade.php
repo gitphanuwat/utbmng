@@ -31,7 +31,7 @@ use App\Download;
 
     $cinfo= Info::where('organize_id',$ido)->get();
     $cpolltopic = Polltopic::where('organize_id',$ido)->get();
-    $ccomplaint = Complaint::where('permit','1')->get();
+    $ccomplaint = Complaint::where('organize_id',$ido)->where('permit','1')->get();
     $cdownload = Download::where('organize_id',$ido)->get();
 
 ?>

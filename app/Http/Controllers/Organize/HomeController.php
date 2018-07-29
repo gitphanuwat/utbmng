@@ -1,11 +1,12 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Organize;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
-use App\Counter;
+use App\Counterorg;
 use App\Log;
 
 use App\Organize;
@@ -21,22 +22,28 @@ class HomeController extends Controller
       //$this->middleware('auth');
       //$this->middleware('logger');
     }
-    public function index()
+    public function index($org)
     {
-      $organize=Organize::get();
-      $person=Person::get();
-      $village=Village::get();
-      $activity=Activity::get();
-      return view('home',compact('organize','person','village','activity'));
+      $data = Organize::where('title',$org)->first();
+      session(['sess_org' => $data->id]);
+      session(['sess_orgname' => $data->name]);
+      $ido = $data->id;
+      $person = Person::where('organize_id',$ido)->get();
+      $village = Village::where('organize_id',$ido)->get();
+      $activity = Activity::where('organize_id',$ido)->get();
+      $tourist = Tourist::where('organize_id',$ido)->get();
+      return view('homepage',compact('data','person','village','activity','tourist'));
     }
 
     public function stat()
     {
-      $objcou = Counter::get();
-      return view('stat',compact('$objcou'));
+      $ido = session('sess_org');
+      $objcou = Counterorg::where('organize_id',$ido)->get();
+      return view('organize.stat',compact('$objcou'));
     }
 
     public function loadstat(Request $request){
+      $ido = session('sess_org');
       $startdate = $request['startdate'];
       $enddate = $request['enddate'];
       $date=date("Y-m-d",strtotime("$startdate"));
@@ -47,7 +54,7 @@ class HomeController extends Controller
           $data .= "resize: true,";
           $data .= "data: [";
           while (strtotime($date) <= strtotime($end_date)) {
-            $objc = Counter::where('day','=',$date)->first();
+            $objc = Counterorg::where('organize_id',$ido)->where('day','=',$date)->first();
             if($objc){
               $counts = $objc->total;
             }else{
@@ -69,16 +76,17 @@ class HomeController extends Controller
 
     public function counterhit()
     {
+      $ido = session('sess_org');
       $today = date("Y-m-d");
-      $objcounter = Counter::where('day','=',$today)->first();
+      $objcounter = Counterorg::where('organize_id',$ido)->where('day','=',$today)->first();
       if ($objcounter){
         $counttotal = $objcounter->total+1;
 
         global $COUNTER_USE_COOKIES;
-        $cookie_name = 'HIT_COUNTER_' . $today;
+        $cookie_name = 'HIT_COUNTER_'.$ido.$today;
        	if(!isset($_COOKIE[$cookie_name])) {
 
-          $cookie_name = 'HIT_COUNTER_' . $today;
+          $cookie_name = 'HIT_COUNTER_'.$ido.$today;
           setcookie($cookie_name, 'TRUE', time() + 360);
 
           $objcounter->day = $today;
@@ -87,13 +95,14 @@ class HomeController extends Controller
         }
       }else{
           $counttotal = 1;
-          $objcounter = new Counter();
+          $objcounter = new Counterorg();
           $objcounter->day = $today;
           $objcounter->total = $counttotal;
+          $objcounter->organize_id = $ido;
           $objcounter->save();
       }
       //return $today.' '.$counttotal;
-      return 'public';
+      //return 'test count org';
     }
 
 }

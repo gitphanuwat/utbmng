@@ -72,6 +72,15 @@ class ProblemController extends Controller
 
     public function store(ProblemRequest $request)
     {
+      $obj = new Problem();
+      $obj->organize_id = $request['organize_id'];
+      $obj->name = $request['name'];
+      $obj->type = '7';
+      $obj->detail = $request['detail'];
+      $obj->sender = $request['sender'];
+      $obj->status = '1';
+      $check = $obj->save();
+      if($check>0){return "<div class='alert alert-success'>- ส่งข้อมูลเรียบร้อย -</div><br><br>";}else{return "- Error -";}
 
     }
 
