@@ -18,7 +18,7 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="{{ asset("assets/dist/css/skins/_all-skins.min.css") }}" />
   @yield('styles')
-  <link rel="icon" href="{!! asset('images/lrd_logo.ico') !!}"/>
+  <link rel="icon" href="{!! asset('images/utb_logo.ico') !!}"/>
 
 </head>
 

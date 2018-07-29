@@ -30,8 +30,8 @@ class FeedController extends Controller
       //$pagearr = array('1897238710576940');
     //  $pagearr = array('124932747956251','nakhamWebPage','242613159231997');
       $pagearr = array('124932747956251','nakhamWebPage','242613159231997','1422870801289919','1105326852944805'
-    ,'T.Phajuk','Ngewngamuttaradit');
-
+    ,'T.Phajuk','1086571854691776');
+      // Ngewngamuttaradit
         //$pageDetails = $this->getFacebookId($pageID,$token);
         //$get_data = $this->feedExtract($pageID,$token);
 

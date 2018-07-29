@@ -72,14 +72,6 @@
             <div align="center" id="loadfeed"><img src="images/ajax-loader.gif" align="absmiddle"><br>Facebook Loading...</div>
           </div>
         </div>
-        <div class="box-footer">
-        <div class="input-group">
-          <input class="form-control" placeholder="Type message...">
-          <div class="input-group-btn">
-            <button type="button" class="btn btn-success"><i class="fa fa-plus"></i></button>
-          </div>
-        </div>
-        </div>
     </div>
     </div>
   </section>
@@ -236,7 +228,7 @@ var counterfeed=0;
     $(window).scroll(function () {
         if ($(window).scrollTop() == $(document).height() - $(window).height()) {
           $('#loadfeed').show();
-            //displayfeed();
+            displayfeed();
         }
     });
     function appendData() {
@@ -260,7 +252,7 @@ var counterfeed=0;
     lng: 100.087,
     zoom: 12,
   });
-  /*$.each( locations, function( index, value ){
+  $.each( locations, function( index, value ){
       map.addMarker({
           id: value.id ,
           lat: value.lat ,
@@ -270,7 +262,7 @@ var counterfeed=0;
              content: value.name
           }
       });
-});*/
+});
 </script>
 
 
