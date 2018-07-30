@@ -42,6 +42,7 @@ class ComplaintController extends Controller
         <th width='70'>ลำดับ</th>
         <th>เรื่องร้องเรียน</th>
         <th>ผู้ส่งข้อมูล</th>
+        <th>หน่วยงาน</th>
         <th>สถานะ</th>
         </tr>
         </thead>
@@ -55,6 +56,7 @@ class ComplaintController extends Controller
           <td>$i</td>
           <td><a data-id='$key->id' href='#j' class='bndetail'>".$key->name."</a></td>
           <td> ".$key->sender."</td>
+          <td> ".$key->organize->name."</td>
           <td>";
           if($key->status==1){$display .= "นำเข้าระบบ";}
           if($key->status==2){$display .= "กำลังดำเนินการ";}

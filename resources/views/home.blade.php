@@ -4,7 +4,7 @@
 <?php
   use App\Counter;
   if(!session('sess_fb')){
-    include ('makejson.php');
+    //include ('makejson.php');
     session(['sess_fb' => 'now']);
   }
 ?>

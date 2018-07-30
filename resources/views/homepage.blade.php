@@ -5,12 +5,11 @@
   use App\Counterorg;
   //session(['sess_fb' => '']);
   if(!session('sess_fb')){
-    include ('makejson.php');
+    //include ('makejson.php');
     session(['sess_fb' => 'now']);
   }
 ?>
 @section('body')
-fb = {{ session('sess_fb') }}
 <div class="row">
   <div class="col-lg-3 col-xs-6">
     <div class="small-box bg-aqua">

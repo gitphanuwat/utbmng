@@ -6,4 +6,9 @@ class Problem extends Model  {
 
 	protected $table = 'problems';
 
+	public function organize()
+	{
+    return $this->belongsTo('App\Organize');
+  }
+	
 }

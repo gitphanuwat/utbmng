@@ -58,7 +58,7 @@ class ProblemController extends Controller
           <td>$i</td>
           <td><a data-id='$key->id' href='#j' class='bndetail'>".$key->name."</a></td>
           <td>".$arrtype[$key->type]."</td>
-          <td> ".$key->address."</td>
+          <td> ".$key->organize->name."</td>
           <td>".$arrstatus[$key->status]."</td>
         </tr>
         ";
