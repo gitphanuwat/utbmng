@@ -1,4 +1,4 @@
-@extends('layouthomes.template')
+@extends('layoutpages.template')
 @section('title','ปฏิทินกิจกรรม')
 @section('subtitle','จัดการข้อมูล')
 @section('styles')
