@@ -22,35 +22,30 @@ class FeedController extends Controller
       return view('rss');
     }
 
-    public function create1()
-    {
-      ?>abcdef<?php
-    }
 
     public function create()
     {
 
       $token = "1496188763803694|13ca95b19789a800190bc4fe50eea910";
-      //$pageID = '262013900603203';
-      //$pageID = '582857498471447';
+      //$token = "229042934292145|b25bd4a29377bbdc160078dbc621bc5b";
+      //$pagearr = array('nakhamWebPage');
       //$pagearr = array('124932747956251','nakhamWebPage','242613159231997');
-      $pagearr = array('124932747956251','nakhamWebPage','242613159231997','1422870801289919');
-
-    //$pageID = 'ILikeURU';
-
-        $pageDetails = $this->getFacebookId($pageID,$token);
+      $pagearr = array('124932747956251','nakhamWebPage','242613159231997','1422870801289919','1105326852944805'
+    ,'T.Phajuk','1086571854691776');
+      // Ngewngamuttaradit
+        //$pageDetails = $this->getFacebookId($pageID,$token);
         //$get_data = $this->feedExtract($pageID,$token);
 
         $display ='';
         $ic=0;
         foreach ($pagearr as $key => $value) {
-          $pageDetails = $this->getFacebookId($value,$token);
-          $get_data = $this->feedExtract($value,$token);
+          //@$pageDetails = $this->getFacebookId($value,$token);
+          @$get_data = $this->feedExtract($value,$token);
           ?>
           <div class="box box-widget">
             <div class="box-body">
                 <div class="pull-left image">
-                  <img class="attachment-img" src="<?php echo $get_data['data'][$ic]['picture'];?>" height="80" alt="Attachment Image">
+                  <img class='img-thumbnail' src="<?php echo $get_data['data'][$ic]['picture'];?>" style="width:110px"  alt="Attachment Image">
                 </div>
                 <div class="pull-right info">
                   <?php
@@ -61,13 +56,13 @@ class FeedController extends Controller
                 </div>
                 <div class="attachment-block clearfix">
                 <div class="attachment-pushed">
-                  <a href="<?php echo $pageDetails->link; ?>"><?php echo $pageDetails->name; ?></a>
+                  <h5 class="attachment-heading"><a href="<?php //echo $pageDetails->link; ?>"><?php //echo $pageDetails->name; ?></a></h5>
                   <div class="attachment-text">
                     <?php
                     @$story = $get_data['data'][$ic]['message'];
                     if(!isset($story))@$story = $get_data['data'][$ic]['story'];
-                    $story=substr($story, 0, 500);
-                    echo $story;?>... <a href="<?php echo "https://www.facebook.com/".$get_data['data'][$ic]['id'];?>" target="_blank">more</a>
+                    $story=substr($story, 0, 515);
+                    echo $story;?>... <a href="<?php echo "https://www.facebook.com/".$get_data['data'][$ic]['id'];?>" target="_blank">อ่านต่อ</a>
                   </div>
                 </div>
               </div>
@@ -90,7 +85,7 @@ class FeedController extends Controller
 
     function feedExtract($pageFBID,$token)
     {
-     $response = file_get_contents("https://graph.facebook.com/v2.6/$pageFBID/feed?fields=picture,message,story,created_time,shares,likes.limit(1).summary(true),comments.limit(1).summary(true)&access_token=".$token);
+     $response = file_get_contents("https://graph.facebook.com/$pageFBID/feed?fields=feed.limit(1),picture,message,story,created_time,shares,likes.limit(1).summary(true),comments.limit(1).summary(true)&access_token=".$token);
      $json = json_decode($response,true);
      return $json;
     }

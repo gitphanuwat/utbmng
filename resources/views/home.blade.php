@@ -3,6 +3,10 @@
 @section('subtitle','Uttaradit Book System')
 <?php
   use App\Counter;
+  if(!session('sess_fb')){
+    include ('makejson.php');
+    session(['sess_fb' => 'now']);
+  }
 ?>
 @section('body')
 <div class="row">
@@ -67,10 +71,8 @@
 
       <div class="box-body chat">
         <div class="item">
-          <div id="myScroll">
             <div id="showfeed"></div>
             <div align="center" id="loadfeed"><img src="images/ajax-loader.gif" align="absmiddle"><br>Facebook Loading...</div>
-          </div>
         </div>
     </div>
     </div>
@@ -218,6 +220,7 @@
 @section('script')
 <script  src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyCkw9kj6fQxsFQJ89BbuRqPRZ5c_SdoDqg"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gmaps.js/0.4.24/gmaps.js"></script>
+<!-- scroll -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <!-- counter -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
@@ -227,8 +230,9 @@
 var counterfeed=0;
     $(window).scroll(function () {
         if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+          //alert(0);
           $('#loadfeed').show();
-            displayfeed();
+            //displayfeed();
         }
     });
     function appendData() {
@@ -285,8 +289,9 @@ var counterfeed=0;
     $.ajax({
       url : '{!! url('/counterhit') !!}',
       type : "get",
-      //asyncfalse
-      data : {},
+      data : {
+        '_token': '{{ csrf_token() }}'
+      },
       success : function(s)
       {
         //$('#counter').html(s);
@@ -298,7 +303,9 @@ var counterfeed=0;
       url : '{!! url('feed/create') !!}',
       type : "get",
       //asyncfalse
-      data : {},
+      data : {
+        '_token': '{{ csrf_token() }}'
+      },
       success : function(s)
       {
         $('#showfeed').append(s);
@@ -311,7 +318,9 @@ var counterfeed=0;
       url : '{!! url('polltopic/1/edit') !!}',
       type : "get",
       //asyncfalse
-      data : {},
+      data : {
+        '_token': '{{ csrf_token() }}'
+      },
       success : function(s)
       {
         $('#showpoll').html(s);

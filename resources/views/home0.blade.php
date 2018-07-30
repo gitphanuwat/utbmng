@@ -1,19 +1,25 @@
-@extends('layoutpages.template')
-@section('title',$data->name)
-@section('subtitle','อ.'.$data->amphur->name.' จังหวัดอุตรดิตถ์')
+@extends('layouthomes.template')
+@section('title','ศูนย์ข้อมูลท้องถิ่น')
+@section('subtitle','Uttaradit Book System')
 <?php
-  use App\Counterorg;
-  //session(['sess_fb' => '']);
-  if(!session('sess_fb')){
-    include ('makejson.php');
-    session(['sess_fb' => 'now']);
-  }
+  use App\Counter;
 ?>
 @section('body')
-fb = {{ session('sess_fb') }}
 <div class="row">
   <div class="col-lg-3 col-xs-6">
     <div class="small-box bg-aqua">
+      <div class="inner">
+        <h3>{{$organize->count()}}</h3>
+        <p>หน่วยงาน</p>
+      </div>
+      <div class="icon">
+        <i class="fa fa-home"></i>
+      </div>
+      <a href="{{url('/organize')}}" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
+  <div class="col-lg-3 col-xs-6">
+    <div class="small-box bg-green">
       <div class="inner">
         <h3>{{$person->count()}}</h3>
         <p>บุคลากร</p>
@@ -21,23 +27,23 @@ fb = {{ session('sess_fb') }}
       <div class="icon">
         <i class="fa fa-user"></i>
       </div>
-      <a href="{{url('')}}/{{$data->title}}/person" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
+      <a href="{{url('/village')}}" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
     </div>
   </div>
   <div class="col-lg-3 col-xs-6">
-    <div class="small-box bg-green">
+    <div class="small-box bg-yellow">
       <div class="inner">
         <h3>{{$village->count()}}</h3>
         <p>ชุมชน</p>
       </div>
       <div class="icon">
-        <i class="fa fa-users"></i>
+        <i class="fa fa-map"></i>
       </div>
-      <a href="{{url('')}}/{{$data->title}}/village" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
+      <a href="{{url('/village')}}" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
     </div>
   </div>
   <div class="col-lg-3 col-xs-6">
-    <div class="small-box bg-yellow">
+    <div class="small-box bg-red">
       <div class="inner">
         <h3>{{$activity->count()}}</h3>
         <p>เรื่องเด่น</p>
@@ -45,26 +51,13 @@ fb = {{ session('sess_fb') }}
       <div class="icon">
         <i class="fa fa-flag"></i>
       </div>
-      <a href="{{url('')}}/{{$data->title}}/activity" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
-    </div>
-  </div>
-  <div class="col-lg-3 col-xs-6">
-    <div class="small-box bg-red">
-      <div class="inner">
-        <h3>{{$tourist->count()}}</h3>
-        <p>แหล่งท่องเที่ยว</p>
-      </div>
-      <div class="icon">
-        <i class="fa fa-photo"></i>
-      </div>
-      <a href="{{url('')}}/{{$data->title}}/tourist" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
+      <a href="{{url('/activity')}}" class="small-box-footer">รายละเอียด <i class="fa fa-arrow-circle-right"></i></a>
     </div>
   </div>
 </div>
 
 <!-- Main row -->
 <div class="row">
-  <!-- Left col -->
   <section class="col-lg-8 connectedSortable">
     <div class="box box-success">
       <div class="box-header">
@@ -77,7 +70,15 @@ fb = {{ session('sess_fb') }}
             <div id="showfeed"></div>
             <div align="center" id="loadfeed"><img src="images/ajax-loader.gif" align="absmiddle"><br>Facebook Loading...</div>
         </div>
-      </div>
+        <div class="box-footer">
+          <div class="input-group">
+            <input class="form-control" placeholder="Type message...">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-success"><i class="fa fa-plus"></i></button>
+            </div>
+          </div>
+        </div>
+    </div>
     </div>
   </section>
   <!-- /.Left col -->
@@ -88,7 +89,7 @@ fb = {{ session('sess_fb') }}
     <div class="box box-info">
       <div class="box-header">
         <div class="box-tools pull-right">
-          <a href='{{url('')}}/{{$data->title}}/organize' class='name'>
+          <a href='{{url('/stat')}}' class='name'>
             <small class='text-muted pull-right'><i class='fa fa-list'></i> More..</small>
           </a>
         </div>
@@ -112,7 +113,7 @@ fb = {{ session('sess_fb') }}
         <h3 class="box-title">กิจกรรมชุมชน</h3>
         <!-- tools box -->
         <div class="box-tools pull-right">
-          <a href="{{url('')}}/{{$data->title}}/event" class='name'>
+          <a href='{{url('/event')}}' class='name'>
             <small class='text-muted pull-right'><i class='fa fa-list'></i> More..</small>
           </a>
         </div>
@@ -135,7 +136,7 @@ fb = {{ session('sess_fb') }}
         <div class="box-header with-border">
           <h3 class="box-title">สถิติการใช้ระบบ</h3>
           <div class="box-tools pull-right">
-            <a href="{{url('')}}/{{$data->title}}/stat" class='name'>
+            <a href='{{url('/stat')}}' class='name'>
               <small class='text-muted pull-right'><i class='fa fa-list'></i> More..</small>
             </a>
           </div>
@@ -153,7 +154,7 @@ fb = {{ session('sess_fb') }}
         <h3 class="box-title">แจ้งปัญหาชุมชน</h3>
         <!-- tools box -->
         <div class="box-tools pull-right">
-          <a href='{{url('')}}/{{$data->title}}/problem' class='name'>
+          <a href='{{url('/complaint')}}' class='name'>
             <small class='text-muted pull-right'><i class='fa fa-list'></i> More..</small>
           </a>
         </div>
@@ -166,7 +167,9 @@ fb = {{ session('sess_fb') }}
           <label>หน่วยงาน</label>
           <select name="organize_id" id="organize_id" class="form-control">
             <?php
-                echo '<option value="'.$data->id.'">'.$data->name.'</option>';
+              foreach ($organize as $key) {
+                echo '<option value="'.$key->id.'">'.$key->name.'</option>';
+              }
              ?>
           </select>
         </div>
@@ -194,7 +197,7 @@ fb = {{ session('sess_fb') }}
       <div class="box-header">
         <h3 class="box-title">สำรวจความคิดเห็น</h3>
         <div class="box-tools pull-right">
-          <a href='{{url('')}}/{{$data->title}}/polltopic' class='name'>
+          <a href='{{url('/polltopic')}}' class='name'>
             <small class='text-muted pull-right'><i class='fa fa-list'></i> More..</small>
           </a>
         </div>
@@ -211,6 +214,7 @@ fb = {{ session('sess_fb') }}
       </form>
       </div>
     </div>
+
   </section>
   <!-- right col -->
 </div>
@@ -229,7 +233,7 @@ fb = {{ session('sess_fb') }}
 var counterfeed=0;
     $(window).scroll(function () {
         if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-          //alert(0);
+          alert(0);
           $('#loadfeed').show();
             //displayfeed();
         }
@@ -248,22 +252,24 @@ var counterfeed=0;
 </script>
 
 <script>
-  var locations = <?php print_r(json_encode($data)) ?>;
+  var locations = <?php print_r(json_encode($organize)) ?>;
   var map = new GMaps({
     el: '#map',
-    lat: locations.lat,
-    lng: locations.lng,
+    lat: 17.62,
+    lng: 100.087,
     zoom: 12,
   });
+  $.each( locations, function( index, value ){
       map.addMarker({
-          id: locations.id ,
-          lat: locations.lat ,
-          lng: locations.lng ,
-          title: locations.name ,
+          id: value.id ,
+          lat: value.lat ,
+          lng: value.lng ,
+          title: value.name ,
           infoWindow: {
-             content: locations.name
+             content: value.name
           }
       });
+});
 </script>
 
 
@@ -284,14 +290,13 @@ var counterfeed=0;
 
   function counterhit(){
     $.ajax({
-      url : '{!! url('managerset/counterhit') !!}',
+      url : '{!! url('/counterhit') !!}',
       type : "get",
       data : {
         '_token': '{{ csrf_token() }}'
       },
       success : function(s)
       {
-        //alert(s);
         //$('#counter').html(s);
       }
     });
@@ -313,9 +318,9 @@ var counterfeed=0;
   }
   function displaypoll(){
     $.ajax({
-      //url : '{!! url('polltopic/1/edit') !!}',
-      url : '{!! url('managerset/polltopic/1/edit') !!}',
+      url : '{!! url('polltopic/1/edit') !!}',
       type : "get",
+      //asyncfalse
       data : {
         '_token': '{{ csrf_token() }}'
       },
@@ -330,7 +335,7 @@ var counterfeed=0;
     //var t = $('#p1').val();
     //alert(t);
     $.ajax({
-      url : '{!! url('managerset/polltopic') !!}'+'/'+id,
+      url : '{!! url('polltopic') !!}'+'/'+id,
       async:false,
       type:'post',
       processData: false,
@@ -346,7 +351,7 @@ var counterfeed=0;
   function postproblem(){
     //alert(0);
     $.ajax({
-      url : '{!! url('managerset/problem') !!}',
+      url : '{!! url('problem') !!}',
       async:false,
       type:'post',
       processData: false,
@@ -364,7 +369,7 @@ var counterfeed=0;
   }
   function loadevent(){
     $.ajax({
-      url : '{!! url('managerset/eventshow') !!}',
+      url : '{!! url('eventshow') !!}',
       type : "get",
       data : {
         '_token': '{{ csrf_token() }}'
@@ -378,8 +383,9 @@ var counterfeed=0;
 </script>
 
 
+
 <?php
-    $ido = session('sess_org');
+    $objcounter = Counter::get();
     $nowdate = date("Y-m-d");
     $date=date("Y-m-d",strtotime("-6 days",strtotime($nowdate)));
     $end_date = date("Y-m-d");
@@ -389,7 +395,7 @@ var counterfeed=0;
         $data .= "resize: true,";
         $data .= "data: [";
         while (strtotime($date) <= strtotime($end_date)) {
-          $objc = Counterorg::where('organize_id',$ido)->where('day','=',$date)->first();
+          $objc = Counter::where('day','=',$date)->first();
           if($objc){
             $counts = $objc->total;
           }else{

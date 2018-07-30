@@ -24,58 +24,73 @@ class FeedController extends Controller
 
     public function create1()
     {
-      $display = 'test';
-      return $display;
+        $f = file_get_contents('datajson.json');
+        if(!function_exists('json_decode')) die('Your host does not support json');
+        	$feed = json_decode($f);
+          foreach($feed as $key => $val){
+          echo $key." : ";
+          echo "Name = ".$val[0];
+          echo "  Website = ".$val[1];
+          echo "<br/>";
+          //query เองน๊ะจ๊ะ
+        }
     }
-
     public function create()
     {
 
-      $token = "1496188763803694|13ca95b19789a800190bc4fe50eea910";
-      //$pageID = '262013900603203';
-      //$pageID = '582857498471447';
-      $pagearr = array('124932747956251','nakhamWebPage','bandan.utt');
+      //$pagetest='124932747956251';
+      //$pagearr = array('124932747956251','nakhamWebPage','242613159231997','1422870801289919','1105326852944805'
+    //,'T.Phajuk','1086571854691776');
+        $file = file_get_contents('datajson.json');
 
-    //$pageID = 'ILikeURU';
-
-        //$pageDetails = $this->getFacebookId($pageID,$token);
-        //$get_data = $this->feedExtract($pageID,$token);
-
-        $display ='';
-        $ic=0;
-        foreach ($pagearr as $key => $value) {
-          $get_data = $this->feedExtract($value,$token);
-
-        $display .= '<img class="attachment-img" src="'.$get_data['data'][$ic]['picture'].'" height="80" alt="Attachment Image">';
-        //$display .= '<img src="'$get_data['data'][$ic]['picture'].'"><br>';
-        //$display .= $get_data['data'][$ic]['created_time']).'<br>';
-        @$date = date_create($get_data['data'][$ic]['created_time']);
-        $newDate = date_format($date,'d-m-Y H:i:s');
-        @$display .= $get_data['data'][$ic]['id'].'<br>';
-        //$display .= $get_data['data'][$ic]['id'].'<br>';
-        $display .= $newDate.'<br>';
-        @$story = $get_data['data'][$ic]['message'];
-        @$story = $get_data['data'][$ic]['story'];
-
-        $display .= $story.'<br>';
-        //$display .= $get_data['data'][$ic]['message'].'<br>';
-        $display .= '<hr>';
+        if(session('sess_fb')){
+          if(!function_exists('json_decode')) die('Your host does not support json');
+          $feed = json_decode($file);
+        }else{
+          //@$jsontest = file_get_contents('https://graph.facebook.com/'.$pagetest.'/?fields=name,website,link,feed.limit(1){picture,message,story,created_time,shares,likes.limit(1).summary(true),comments.limit(1).summary(true)}&access_token='.$token);
+          include('makejson.php');
+          if(!function_exists('json_decode')) die('Your host does not support json');
+          $feed = json_decode($file);
         }
-        return $display;
-    }
 
-    function getFacebookId($pageID,$token) // This function return facebook page details by its url
-    {
-       $json = file_get_contents('https://graph.facebook.com/'.$pageID.'?fields=picture,phone,fan_count,talking_about_count,name,about,link,website&access_token='.$token);
-       $json = json_decode($json);
-       return $json;
-    }
-
-    function feedExtract($pageFBID,$token)
-    {
-     $response = file_get_contents("https://graph.facebook.com/v2.6/$pageFBID/feed?fields=picture,message,story,created_time,shares,likes.limit(1).summary(true),comments.limit(1).summary(true)&access_token=".$token);
-     $json = json_decode($response,true);
-     return $json;
+        foreach($feed as $key => $val){
+        //foreach ($pagearr as $key => $value) {
+        	//$json = file_get_contents('https://graph.facebook.com/'.$value.'/?fields=name,website,link,feed.limit(1){picture,message,story,created_time,shares,likes.limit(1).summary(true),comments.limit(1).summary(true)}&access_token='.$token);
+        	//$json = json_decode($json);
+          ?>
+          <div class="box box-widget">
+            <div class="box-body">
+                <div class="pull-left image">
+                  <img class='img-thumbnail' src="<?php echo $val[4];?>" style="width:110px"  alt="Attachment Image">
+                </div>
+                <div class="pull-right info">
+                  <?php
+                  $date = date_create($val[10]);
+                  $newDate = date_format($date,'Y-m-d H:i:s');
+                  ?>
+                  <span class="description"><?php echo $newDate;?></span>
+                </div>
+                <div class="attachment-block clearfix">
+                <div class="attachment-pushed">
+                  <h5 class="attachment-heading"><a href="<?php echo $val[2];?>"><?php echo $val[0];?></a></h5>
+                  <div class="attachment-text">
+                    <?php
+                    $story = $val[5];
+                    //$story = $val[6];
+                    //if(!isset($story))$story = $val[6];
+                    $story=substr($story, 0, 515);
+                    echo $val[6].'<br>'.$story;?>... <a href="<?php echo "https://www.facebook.com/".$val[3];?>" target="_blank">อ่านต่อ</a>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share </button>
+              <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like </button>
+              <button type="button" class="btn btn-default btn-xs"><i class="fa fa-comment"></i> Comment </button>
+            </div>
+          </div>
+          <?php
+        }
+        //return $display;
     }
 
     public function store(Request $request)
