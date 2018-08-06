@@ -74,7 +74,7 @@ class InfoController extends Controller
       </div>
       <div class='row'>
       <div class='col-md-4'>
-        <img class='img-thumbnail' src='http://localhost/utb/public_html/images/info/".$data->file."'>
+        <img class='img-thumbnail' src='http://www.uttaraditbook.com/manage/images/info/".$data->file."'>
         <p class='text-muted text-center'>".$data->organize->name."</p>
       </div>
       <div class='col-md-8'>

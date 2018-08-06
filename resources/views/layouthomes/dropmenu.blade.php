@@ -233,7 +233,7 @@
 <ul class="nav navbar-nav">
   <!-- User Account: style can be found in dropdown.less -->
   <li class="pull-right">
-    <a href="http://localhost/utb/public_html/login">
+    <a href="http://nama.uttaraditbook.com/login">
       <span class="hidden-xs"><i class="fa fa-user"></i> Member Login..</span>
     </a>
   </li>
