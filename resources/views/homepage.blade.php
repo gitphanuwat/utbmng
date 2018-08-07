@@ -5,8 +5,7 @@
   use App\Counterorg;
   //session(['sess_fb' => '']);
   if(!session('sess_fb')){
-    //include ('makejson.php');
-    session(['sess_fb' => 'now']);
+    include ('makejson.php');
   }
 ?>
 @section('body')
@@ -69,6 +68,16 @@
       <div class="box-header">
         <i class="fa fa-comments-o"></i>
         <h3 class="box-title">กิจกรรมชุมชน</h3>
+        <div class="box-tools pull-right">
+            <small class='text-muted pull-right'>
+              <?php
+              if(!session('sess_fb')){
+                echo '<i class="fa fa-circle text-danger"></i></small>';
+              }else{
+                echo '<i class="fa fa-circle text-success"></i></small>';
+              }
+               ?>
+        </div>
       </div>
 
       <div class="box-body chat">
@@ -225,28 +234,6 @@
 <script src="{{ asset("assets/plugins/morris/morris.min.js") }}"></script>
 
 <script>
-var counterfeed=0;
-    $(window).scroll(function () {
-        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-          //alert(0);
-          $('#loadfeed').show();
-            //displayfeed();
-        }
-    });
-    function appendData() {
-        var html = '';
-        for (i = 0; i < 10; i++) {
-            html += '<p class="dynamic">Dynamic Data :  This is test data.</br>Next line.</p>';
-        }
-        $('#myScroll').append(html);
-  counterfeed++;
-
-  //if(counter==2)
-  //$('#myScroll').append('<button id="uniqueButton" style="margin-left: 50%; background-color: powderblue;">Click</button></br></br>');
-    }
-</script>
-
-<script>
   var locations = <?php print_r(json_encode($data)) ?>;
   var map = new GMaps({
     el: '#map',
@@ -267,12 +254,20 @@ var counterfeed=0;
 
 
 <script>
+var counterfeed=1;
+$(window).scroll(function () {
+    if ($(window).scrollTop() == $(document).height() - $(window).height() && counterfeed < 3) {
+      $('#loadfeed').show();
+        displayfeed(counterfeed);
+    }
+});
+
   $(function () {
     "use strict";
     counterhit();
     displaypoll();
     loadevent();
-    displayfeed();
+    displayfeed(counterfeed);
     $('#sendpoll').click(function(){
       updatepoll();
     });
@@ -295,9 +290,9 @@ var counterfeed=0;
       }
     });
   }
-  function displayfeed(){
+  function displayfeed(cnt){
     $.ajax({
-      url : '{!! url('feed/create') !!}',
+      url : '{!! url('feed') !!}'+'/'+cnt,
       type : "get",
       //asyncfalse
       data : {
@@ -305,10 +300,12 @@ var counterfeed=0;
       },
       success : function(s)
       {
+        //alert(s);
         $('#showfeed').append(s);
         $('#loadfeed').hide();
       }
     });
+    counterfeed++;
   }
   function displaypoll(){
     $.ajax({

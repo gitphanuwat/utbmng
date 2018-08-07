@@ -6,18 +6,10 @@
   //session(['sess_fb' => '']);
   if(!session('sess_fb')){
     include ('makejson.php');
+    session(['sess_fb' => 'now']);
   }
 ?>
 @section('body')
-<?php
-//echo session('sess_fb');
-//$token = "1496188763803694|13ca95b19789a800190bc4fe50eea910";
-//$jsontest = @file_get_contents('https://graph.facebook.com/124932747956251?access_token='.$token);
-//$jsontest = json_decode($jsontest);
-//$check = @$jsontest->name;
-
-//echo $check;
- ?>
 <div class="row">
   <div class="col-lg-3 col-xs-6">
     <div class="small-box bg-aqua">
@@ -76,16 +68,6 @@
       <div class="box-header">
         <i class="fa fa-comments-o"></i>
         <h3 class="box-title">กิจกรรมชุมชน</h3>
-        <div class="box-tools pull-right">
-            <small class='text-muted pull-right'>
-              <?php
-              if(!session('sess_fb')){
-                echo '<i class="fa fa-circle text-danger"></i></small>';
-              }else{
-                echo '<i class="fa fa-circle text-success"></i></small>';
-              }
-               ?>
-        </div>
       </div>
 
       <div class="box-body chat">
@@ -274,7 +256,7 @@
 <script>
   var counterfeed=1;
   $(window).scroll(function () {
-      if ($(window).scrollTop() == $(document).height() - $(window).height() && counterfeed < 3) {
+      if ($(window).scrollTop() == $(document).height() - $(window).height() && counterfeed < 10) {
         $('#loadfeed').show();
           displayfeed(counterfeed);
       }
