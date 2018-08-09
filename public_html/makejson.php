@@ -13,25 +13,25 @@ if (isset($check)) {
     $text = "{";
 //foreach ($organize as $key) {
     foreach ($org as $key) {
-      $json = @file_get_contents('https://graph.facebook.com/'.$key->facebook.'/?fields=name,website,link,feed.limit(1){picture,message,story,created_time,shares,likes.limit(1).summary(true),comments.limit(1).summary(true)}&access_token='.$token);
+      $json = @file_get_contents('https://graph.facebook.com/'.$key->facebook.'/?fields=name,website,link,posts.limit(1){picture,message,story,created_time,shares,likes.limit(1).summary(true),comments.limit(1).summary(true)}&access_token='.$token);
     	$json = json_decode($json);
 
-        $msg = iconv_substr(@$json->feed->data[0]->message, 0, 300,"UTF-8");
-        $msg = preg_replace('/[[:space:]]+/', ' ', trim($msg));
-        $msg = preg_replace('/"+/', ' ', trim($msg));
+      $msg = iconv_substr(@$json->posts->data[0]->message, 0, 300,"UTF-8");
+      $msg = preg_replace('/[[:space:]]+/', ' ', trim($msg));
+      $msg = preg_replace('/"+/', ' ', trim($msg));
 
-        $text .='"'.@$json->id.'":[
-          "'.@$json->name.'",
-          "'.@$json->website.'",
-          "'.@$json->link.'",
-          "'.@$json->feed->data[0]->id.'",
-          "'.@$json->feed->data[0]->picture.'",
-          "'.$msg.'",
-          "'.@$json->feed->data[0]->story.'",
-          "'.@$json->feed->data[0]->shares->count.'",
-          "'.@$json->feed->data[0]->likes->summary->total_count.'",
-          "'.@$json->feed->data[0]->comments->summary->total_count.'",
-          "'.@$json->feed->data[0]->created_time.'"],';
+      $text .='"'.@$json->id.'":[
+        "'.@$json->name.'",
+        "'.@$json->website.'",
+        "'.@$json->link.'",
+        "'.@$json->posts->data[0]->id.'",
+        "'.@$json->posts->data[0]->picture.'",
+        "'.$msg.'",
+        "'.@$json->posts->data[0]->story.'",
+        "'.@$json->posts->data[0]->shares->count.'",
+        "'.@$json->posts->data[0]->likes->summary->total_count.'",
+        "'.@$json->posts->data[0]->comments->summary->total_count.'",
+        "'.@$json->posts->data[0]->created_time.'"],';
 
     }
     $text = rtrim($text,",");

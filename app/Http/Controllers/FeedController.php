@@ -41,7 +41,7 @@ class FeedController extends Controller
       if($id==1){
         $file = file_get_contents('datajson.json');
         if(!function_exists('json_decode')) die('Your host does not support json');
-        $feed = json_decode($file);
+        $posts = json_decode($file);
       }else{
         if(!session('sess_fb')){
           session(['sess_fb' => 'now']);
@@ -58,10 +58,10 @@ class FeedController extends Controller
             $objFopen = fopen($strFileName, 'w');
               $text = "{";
               foreach ($org as $key) {
-                $json = @file_get_contents('https://graph.facebook.com/'.$key->facebook.'/?fields=name,website,link,feed.limit(1){picture,message,story,created_time,shares,likes.limit(1).summary(true),comments.limit(1).summary(true)}&access_token='.$token);
+                $json = @file_get_contents('https://graph.facebook.com/'.$key->facebook.'/?fields=name,website,link,posts.limit(1){picture,message,story,created_time,shares,likes.limit(1).summary(true),comments.limit(1).summary(true)}&access_token='.$token);
               	$json = json_decode($json);
 
-                  $msg = iconv_substr(@$json->feed->data[0]->message, 0, 300,"UTF-8");
+                  $msg = iconv_substr(@$json->posts->data[0]->message, 0, 300,"UTF-8");
                   $msg = preg_replace('/[[:space:]]+/', ' ', trim($msg));
                   $msg = preg_replace('/"+/', ' ', trim($msg));
 
@@ -69,14 +69,14 @@ class FeedController extends Controller
                     "'.@$json->name.'",
                     "'.@$json->website.'",
                     "'.@$json->link.'",
-                    "'.@$json->feed->data[0]->id.'",
-                    "'.@$json->feed->data[0]->picture.'",
+                    "'.@$json->posts->data[0]->id.'",
+                    "'.@$json->posts->data[0]->picture.'",
                     "'.$msg.'",
-                    "'.@$json->feed->data[0]->story.'",
-                    "'.@$json->feed->data[0]->shares->count.'",
-                    "'.@$json->feed->data[0]->likes->summary->total_count.'",
-                    "'.@$json->feed->data[0]->comments->summary->total_count.'",
-                    "'.@$json->feed->data[0]->created_time.'"],';
+                    "'.@$json->posts->data[0]->story.'",
+                    "'.@$json->posts->data[0]->shares->count.'",
+                    "'.@$json->posts->data[0]->likes->summary->total_count.'",
+                    "'.@$json->posts->data[0]->comments->summary->total_count.'",
+                    "'.@$json->posts->data[0]->created_time.'"],';
               }
               $text = rtrim($text,",");
               $text .= '}';
@@ -86,10 +86,10 @@ class FeedController extends Controller
         }
         $file = file_get_contents('datajsonfeed.json');
         if(!function_exists('json_decode')) die('Your host does not support json');
-        $feed = json_decode($file);
+        $posts = json_decode($file);
       }
 
-      foreach($feed as $key => $val){
+      foreach($posts as $key => $val){
         ?>
         <div class="box box-widget">
           <div class="box-body">

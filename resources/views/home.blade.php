@@ -12,11 +12,28 @@
 <?php
 //echo session('sess_fb');
 //$token = "1496188763803694|13ca95b19789a800190bc4fe50eea910";
-//$jsontest = @file_get_contents('https://graph.facebook.com/124932747956251?access_token='.$token);
-//$jsontest = json_decode($jsontest);
-//$check = @$jsontest->name;
-
+//$json = @file_get_contents('https://graph.facebook.com/failuang1/??fields=posts.limit(1){name,story,picture,created_time}&access_token='.$token);
+//$json = @file_get_contents('https://graph.facebook.com/failuang1/?fields=name,website,link,posts.limit(1){picture,message,story,created_time,shares,likes.limit(1).summary(true),comments.limit(1).summary(true)}&access_token='.$token);
+//$json = @file_get_contents('https://graph.facebook.com/124932747956251?access_token='.$token);
+//$json = @file_get_contents('https://graph.facebook.com/Zim.modify?fields=posts.limit(1){name,story,picture,created_time,shares,likes.limit(1).summary(true),comments.limit(1).summary(true)}&access_token='.$token);
+//$json = json_decode($json);
+//$check = @$json->name;
 //echo $check;
+/*
+echo @$json->posts->data[0]->picture;
+echo '<br>';
+echo @$json->posts->data[0]->name;
+echo '<br>';
+echo @$json->posts->data[0]->story;
+echo '<br>';
+echo @$json->posts->data[0]->created_time;
+echo '<br>';
+echo @$json->posts->data[0]->shares->count;
+echo '<br>';
+echo @$json->posts->data[0]->likes->summary->total_count;
+echo '<br>';
+echo @$json->posts->data[0]->comments->summary->total_count;
+*/
  ?>
 <div class="row">
   <div class="col-lg-3 col-xs-6">
