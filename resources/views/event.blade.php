@@ -1,6 +1,6 @@
 @extends('layouthomes.template')
 @section('title','ปฏิทินกิจกรรม')
-@section('subtitle','จัดการข้อมูล')
+@section('subtitle','จังหวัดอุตรดิตถ์')
 @section('styles')
 <!-- DataTables -->
 <link rel="stylesheet" href="{ asset("assets/plugins/datatables/dataTables.bootstrap.css") }}">

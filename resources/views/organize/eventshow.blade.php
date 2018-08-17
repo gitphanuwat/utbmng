@@ -1,6 +1,6 @@
 @extends('layoutpages.template')
 @section('title','ปฏิทินกิจกรรม')
-@section('subtitle','จัดการข้อมูล')
+@section('subtitle',session('sess_orgname'))
 @section('styles')
 
 @endsection

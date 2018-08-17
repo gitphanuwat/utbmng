@@ -1,6 +1,6 @@
 @extends('layoutpages.template')
 @section('title','พื้นที่ชุมชน')
-@section('subtitle','จัดการข้อมูล')
+@section('subtitle',session('sess_orgname'))
 @section('body')
 <div class="row">
 <div class="col-md-12">

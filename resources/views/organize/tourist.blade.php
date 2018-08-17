@@ -1,6 +1,6 @@
 @extends('layoutpages.template')
 @section('title','แหล่งท่องเที่ยว')
-@section('subtitle','จัดการข้อมูล')
+@section('subtitle',session('sess_orgname'))
 @section('body')
 <div class="row">
 <div class="col-md-12">

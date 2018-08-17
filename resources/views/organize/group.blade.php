@@ -1,6 +1,6 @@
 @extends('layoutpages.template')
 @section('title','กลุ่มชุมชน')
-@section('subtitle','จัดการข้อมูล')
+@section('subtitle',session('sess_orgname'))
 @section('body')
 <!-- Small boxes (Stat box) -->
 <div class="row">

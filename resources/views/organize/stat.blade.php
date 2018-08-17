@@ -1,7 +1,7 @@
 @extends('layoutpages.template')
 
 @section('title','ศูนย์ข้อมูลท้องถิ่น')
-@section('subtitle','Uttaradit Book System')
+@section('subtitle',session('sess_orgname'))
 @section('styles')
 <!-- bootstrap datepicker -->
 <link rel="stylesheet" href="{{ asset("assets/plugins/datepicker/datepicker3.css") }}">

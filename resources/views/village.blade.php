@@ -1,6 +1,6 @@
 @extends('layouthomes.template')
 @section('title','พื้นที่ชุมชน')
-@section('subtitle','จัดการข้อมูล')
+@section('subtitle','จังหวัดอุตรดิตถ์')
 @section('body')
 <div class="row">
 <div class="col-md-12">

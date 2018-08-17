@@ -1,6 +1,6 @@
 @extends('layouthomes.template')
 @section('title','กลุ่มชุมชน')
-@section('subtitle','จัดการข้อมูล')
+@section('subtitle','จังหวัดอุตรดิตถ์')
 @section('body')
 <!-- Small boxes (Stat box) -->
 <div class="row">
